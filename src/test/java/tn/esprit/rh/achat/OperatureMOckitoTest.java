@@ -3,11 +3,15 @@ package tn.esprit.rh.achat;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import tn.esprit.rh.achat.entities.Operateur;
 import tn.esprit.rh.achat.repositories.OperateurRepository;
 import tn.esprit.rh.achat.services.OperateurServiceImpl;
@@ -18,8 +22,9 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
+@ExtendWith( MockitoExtension.class)
 @SpringBootTest
-public class OperatureTestMOckito {
+public class OperatureMOckitoTest {
 
     @InjectMocks
     private OperateurServiceImpl operateurService;
@@ -27,10 +32,6 @@ public class OperatureTestMOckito {
     @Mock
     private OperateurRepository operateurRepository;
 
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     public void testRetrieveAllOperateurs() {

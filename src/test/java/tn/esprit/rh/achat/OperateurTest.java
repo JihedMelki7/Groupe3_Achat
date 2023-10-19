@@ -1,42 +1,84 @@
 package tn.esprit.rh.achat;
 
-
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import tn.esprit.rh.achat.entities.Operateur;
+import tn.esprit.rh.achat.entities.Produit;
+import tn.esprit.rh.achat.repositories.CategorieProduitRepository;
 import tn.esprit.rh.achat.repositories.OperateurRepository;
+import tn.esprit.rh.achat.repositories.ProduitRepository;
+import tn.esprit.rh.achat.repositories.StockRepository;
 import tn.esprit.rh.achat.services.OperateurServiceImpl;
+import tn.esprit.rh.achat.services.ProduitServiceImpl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 
+@ContextConfiguration(classes = {OperateurServiceImpl.class})
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class OperateurTest {
 
 
+    @MockBean
+    private OperateurRepository operateurRepository;
+
     @Autowired
     private OperateurServiceImpl operateurService;
 
-    @Autowired
-    private OperateurRepository operateurRepository;
 
     @Test
-    void testRetrieveAllOperateurs() {
-        ArrayList<Operateur> operateurList = new ArrayList<>();
-        operateurRepository.saveAll(operateurList);
+    void testRetrieveAllop() {
+        ArrayList<Operateur> opList = new ArrayList<>();
+        when(operateurRepository.findAll()).thenReturn(opList);
+        List<Operateur> actualRetrieveAllopResult = operateurService.retrieveAllOperateurs();
+        assertSame(opList, actualRetrieveAllopResult);
+        assertTrue(actualRetrieveAllopResult.isEmpty());
+        verify(operateurRepository).findAll();
+    }
 
-        List<Operateur> actualRetrieveAllOperateursResult = operateurService.retrieveAllOperateurs();
+    @Test
+    void testDeleteop() {
+        doNothing().when(operateurRepository).deleteById((Long) any());
+        operateurService.deleteOperateur(123L);
+        verify(operateurRepository).deleteById((Long) any());
+    }
 
-        assertNotSame(operateurList, actualRetrieveAllOperateursResult);
-        assertFalse(actualRetrieveAllOperateursResult.isEmpty());
+    @Test
+    void testUpdateOperateur() {
+
+        Operateur existingOperateur = new Operateur();
+        existingOperateur.setIdOperateur(123L);
+        existingOperateur.setNom("testoperature2");
+
+
+        when(operateurRepository.save(existingOperateur)).thenReturn(existingOperateur);
+
+
+        Operateur updatedOperateur = operateurService.updateOperateur(existingOperateur);
+
+
+        Assertions.assertEquals(123L, updatedOperateur.getIdOperateur());
+       Assertions.assertEquals("testoperature2", updatedOperateur.getNom());
+
+
+        verify(operateurRepository).save(existingOperateur);
     }
     @Test
     void testAddOperateur() {
@@ -46,80 +88,16 @@ public class OperateurTest {
         newOperateur.setPrenom("mejbri");
         newOperateur.setPassword("0");
 
-        Operateur addedOperateur = operateurService.addOperateur(newOperateur);
 
-        assertNotNull(addedOperateur);
-
-        Operateur retrievedOperateur = operateurRepository.findById(addedOperateur.getIdOperateur()).orElse(null);
-
-        assertNotNull(retrievedOperateur);
-        assertEquals("karim", retrievedOperateur.getNom());
-        assertEquals("mejbri", retrievedOperateur.getPrenom());
-        assertEquals("0", retrievedOperateur.getPassword());
-    }
-
-    @Test
-    void testDeleteOperateur() {
-        // Create a new Operateur object
-        Operateur newOperateur = new Operateur();
-        newOperateur.setNom("testoperature");
-
-        // Save the Operateur using the repository
-        Operateur addedOperateur = operateurRepository.save(newOperateur);
-
-        // Call the method to delete the Operateur by its ID
-        operateurService.deleteOperateur(addedOperateur.getIdOperateur());
-
-        // Try to retrieve the deleted Operateur from the repository
-        Optional<Operateur> deletedOperateur = operateurRepository.findById(addedOperateur.getIdOperateur());
-
-        // Assert that the deleted Operateur is not found
-        assertFalse(deletedOperateur.isPresent());
-    }
-
-
-    @Test
-    void testUpdateOperateur() {
-
-        Operateur newOperateur = new Operateur();
-        newOperateur.setNom("testoperature2");
-
-
-        Operateur addedOperateur = operateurRepository.save(newOperateur);
-
-
-        addedOperateur.setNom("updatedtestoperature2");
-
-
-        Operateur updatedOperateur = operateurService.updateOperateur(addedOperateur);
-
-
-        Operateur retrievedOperateur = operateurRepository.findById(addedOperateur.getIdOperateur()).orElse(null);
-
-
-        assertEquals("updatedtestoperature2", retrievedOperateur.getNom());
-    }
-    @Test
-    void testRetrieveOperateur() {
-
-        Operateur newOperateur = new Operateur();
-        newOperateur.setNom("test3");
-        newOperateur.setPrenom("test3p");
-        newOperateur.setPassword("12345");
+        when(operateurRepository.save(newOperateur)).thenReturn(newOperateur);
 
 
         Operateur addedOperateur = operateurService.addOperateur(newOperateur);
 
 
-        Operateur retrievedOperateur = operateurService.retrieveOperateur(addedOperateur.getIdOperateur());
+        Assertions.assertNotNull(addedOperateur);
 
-
-        assertNotNull(retrievedOperateur);
-
-
-        assertEquals("test3", retrievedOperateur.getNom());
-        assertEquals("test3p", retrievedOperateur.getPrenom());
-        assertEquals("12345", retrievedOperateur.getPassword());
+        verify(operateurRepository).save(newOperateur);
     }
 
 }

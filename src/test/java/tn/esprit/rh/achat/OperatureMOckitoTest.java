@@ -22,8 +22,8 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
-@ExtendWith( MockitoExtension.class)
-@SpringBootTest
+@RunWith( SpringRunner.class)
+
 public class OperatureMOckitoTest {
 
     @InjectMocks
@@ -32,6 +32,10 @@ public class OperatureMOckitoTest {
     @Mock
     private OperateurRepository operateurRepository;
 
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     public void testRetrieveAllOperateurs() {
@@ -91,7 +95,7 @@ public class OperatureMOckitoTest {
         Operateur result = operateurService.updateOperateur(operateur);
 
         assertNotNull(result);
-       Assertions.assertEquals(1L,result.getIdOperateur());
+        Assertions.assertEquals(1L,result.getIdOperateur());
         assertEquals("test update", result.getNom());
     }
     @Test

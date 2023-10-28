@@ -5,17 +5,18 @@ services:
     image: mysql:5.7
     restart: unless-stopped
     ports:
-      - 3307:3306
+      - 3306:3306
     volumes:
       - db:/var/lib/mysql
     environment:
-      Mysql_Allow_EMPTY_PASSWORD: "yes"
-  achat-backen:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+  achat_backend:
     image: aymena26/achat:1-0
     restart: unless-stopped
     ports:
       - 8082:8082
     depends_on:
       - mysqldb
+
 volumes:
   db:

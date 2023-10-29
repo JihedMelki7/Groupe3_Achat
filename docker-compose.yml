@@ -1,8 +1,8 @@
 version: '3.8'
 
 services:
-  mysqldb:
-    image: mysql:5.7
+  sql:
+    image: mysql:6
     restart: unless-stopped
     ports:
       - 3307:3306
@@ -10,13 +10,12 @@ services:
       - db:/var/lib/mysql
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-  achat_backend:
-    image: aymena26/achate:2-0
+  backend:
+    image: aymena26/achate:1
     restart: unless-stopped
     ports:
       - 8087:8087
-    depends_on:
-      - mysqldb
+
 
 volumes:
   db:

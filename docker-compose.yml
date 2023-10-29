@@ -15,7 +15,11 @@ services:
     restart: unless-stopped
     ports:
       - 8087:8087
-
+  front:
+    image: aymena26/frontapp:2  # Replace with the actual image for your front-end
+    restart: unless-stopped
+    ports:
+      - 80:80
 
 volumes:
   db:

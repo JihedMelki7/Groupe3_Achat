@@ -40,12 +40,13 @@ pipeline {
         sh 'mvn test'
       }
     }
-     stage ('STATIC TEST WITH SONAR') {
+       stage ('STATIC TEST WITH SONAR') {
        steps {
-          sh 'mvn sonar:sonar'
+       withSonarQubeEnv('sonarqube-8.9.7-community') { 
+                sh 'mvn sonar:sonar'
+        }
       }
     }
-  
   
  }
 }

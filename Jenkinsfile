@@ -42,8 +42,9 @@ pipeline {
     }
        stage ('STATIC TEST WITH SONAR') {
        steps {
-         
-                sh 'mvn sonar:sonar'
+        withCredentials([usernamePassword(credentialsId: 'a8b63053-9fcf-41e8-b155-8c14dcc9117d', passwordVariable: 'sonar', usernameVariable: 'admin')]) {
+                    sh "mvn sonar:sonar -Dsonar.login=$admin -Dsonar.password=$sonar"
+                }
       }
     }
   

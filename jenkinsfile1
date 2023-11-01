@@ -1,0 +1,45 @@
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout Git') {
+            steps {
+                echo 'Pulling...'
+                git branch: 'facture-achref',
+                url : 'https://github.com/JihedMelki7/Groupe3_Achat.git'
+            }
+        }
+
+        stage('Clean') {
+            steps {
+                script {
+                    // Clean the project
+                    sh 'mvn clean'
+                }
+            }
+        }
+
+        stage('Compile') {
+            steps {
+                script {
+                    // Compile the project
+                    sh 'mvn compile'
+                }
+            }
+        }
+        
+        
+        stage('SonarQube Analysis') {
+           steps {
+             withSonarQubeEnv('sonarqueb') {
+               sh "mvn sonar:sonar"
+             }
+            }
+        }
+
+        
+    }
+
+   
+}

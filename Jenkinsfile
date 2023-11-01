@@ -53,13 +53,7 @@ pipeline {
         
       }
     }
-    stage('Build Docker Image') {
-       steps {
-            script {
-                    docker.build('achat:1.0')
-                }
-            }
-        }
+    
   
  }
 }

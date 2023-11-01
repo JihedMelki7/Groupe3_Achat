@@ -1,0 +1,62 @@
+pipeline{
+    
+    agent any
+
+environment {
+  DOCKER_TAG = getVersion()
+}
+stages{
+    stage('pulling the code'){
+        steps{
+            git branch: 'Reglement-malek',
+            credentialsId: 'git-cred',
+            url: 'https://github.com/JihedMelki7/Groupe3_Achat.git'
+}}
+    stage('build'){
+        steps{ 
+            sh 'mvn clean package'
+}}
+ /*  stage('dep nexus'){
+        steps{ 
+            sh 'mvn deploy -DskipTests'
+}} */
+/*stage('Publish to Nexus') {
+            steps {
+               nexusArtifactUploader artifacts: [[artifactId: 'malek',
+               classifier: '',
+               file: './target/JavaTest-0.0.1-SNAPSHOT.war',
+               type: '']],
+               credentialsId: 'nex-cred',
+               groupId: 'test',
+               nexusUrl: '192.168.222.131:8081',
+               nexusVersion: 'nexus3',
+               protocol: 'http',
+               repository: 'test',
+               version: '${BUILD_ID}'
+          }}
+*/
+ stage('docker'){
+        steps{ 
+                sh 'docker build . -t malekkkk/testing:${DOCKER_TAG}'   
+    
+        }}
+ stage('docker login'){
+        steps {
+                withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerHubPwd')]) {      
+                        sh "echo \$dockerHubPwd | docker login -u malekkkk --password-stdin"
+            }}}
+   
+stage ('docker push'){
+        steps{
+            sh 'docker push malekkkk/testing:${DOCKER_TAG}'
+        }
+    }
+   
+    
+}
+}
+def getVersion()
+{
+   def commitHash = sh returnStdout: true, script: 'git rev-parse --short  HEAD'
+   return commitHash 
+}

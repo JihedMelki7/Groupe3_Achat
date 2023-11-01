@@ -31,7 +31,7 @@ public class ReglementTest {
 
     @Test
     public void testRetrieveAllReglements() {
-        // Mock data
+        
         Reglement reglement1 = new Reglement();
         reglement1.setIdReglement(1L);
         reglement1.setMontantPaye(100.0f);
@@ -52,17 +52,17 @@ public class ReglementTest {
 
         when(reglementRepository.findAll()).thenReturn(reglementList);
 
-        // Call the method under test
+        
         List<Reglement> retrievedReglements = reglementService.retrieveAllReglements();
 
-        // Assertions
+        
         assertEquals(2, retrievedReglements.size());
-        // Add more assertions for the content of the list
+        
     }
 
     @Test
     public void testAddReglement() {
-        // Mock data
+       
         Reglement reglementToSave = new Reglement();
         reglementToSave.setIdReglement(1L);
         reglementToSave.setMontantPaye(100.0f);
@@ -72,12 +72,12 @@ public class ReglementTest {
 
         when(reglementRepository.save(Mockito.any(Reglement.class))).thenReturn(reglementToSave);
 
-        // Call the method under test
+        
         Reglement addedReglement = reglementService.addReglement(reglementToSave);
 
-        // Assertions
+        
         assertEquals(1L, addedReglement.getIdReglement());
-        // Add more assertions for other fields
+        
     }
 
     @Test
@@ -91,19 +91,19 @@ public class ReglementTest {
 
         Mockito.when(reglementRepository.findById(1L)).thenReturn(Optional.of(reglement));
 
-        // Call the method under test
+        
         Reglement retrievedReglement = reglementService.retrieveReglement(1L);
 
-        // Assertions
+        
         assertNotNull(retrievedReglement);
         assertEquals(1L, retrievedReglement.getIdReglement());
-        // Add more assertions for other fields
+        
     }
 
-    // Add tests for other methods like retrieveReglementByFacture and getChiffreAffaireEntreDeuxDate
+    
     @Test
     public void testRetrieveReglementByFacture() {
-        // Mock data
+        
         Long idFacture = 1L;
         Reglement reglement1 = new Reglement();
         reglement1.setIdReglement(1L);
@@ -123,29 +123,29 @@ public class ReglementTest {
 
         when(reglementRepository.retrieveReglementByFacture(idFacture)).thenReturn(reglementList);
 
-        // Call the method under test
+        
         List<Reglement> retrievedReglements = reglementService.retrieveReglementByFacture(idFacture);
 
-        // Assertions
+        
         assertEquals(2, retrievedReglements.size());
-        // Add more assertions for the content of the list
+        
     }
 
     @Test
     public void testGetChiffreAffaireEntreDeuxDate() {
-        // Mock data
-        Date startDate = new Date(); // Replace with an actual start date
-        Date endDate = new Date();   // Replace with an actual end date
+       
+        Date startDate = new Date(); 
+        Date endDate = new Date();   
 
-        // Mock the result
-        float expectedChiffreAffaire = 1000.0f; // Replace with the expected result
+        
+        float expectedChiffreAffaire = 1000.0f; 
 
         when(reglementRepository.getChiffreAffaireEntreDeuxDate(startDate, endDate)).thenReturn(expectedChiffreAffaire);
 
-        // Call the method under test
+        
         float chiffreAffaire = reglementService.getChiffreAffaireEntreDeuxDate(startDate, endDate);
 
-        // Assertions
+       
         assertEquals(expectedChiffreAffaire, chiffreAffaire);
     }
 }

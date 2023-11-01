@@ -55,7 +55,7 @@ pipeline {
     }
     stage('build image docker'){
       steps{
-        sh 'docker build -t achat:1-0'
+        sh 'docker build -t achat:1-0 . '
       }
     }
     

@@ -1,5 +1,10 @@
 pipeline {
   agent any 
+
+  triggers {
+        githubPush()
+    }
+  
   stages {
     stage('git checkout') {
       steps {
@@ -9,6 +14,11 @@ pipeline {
         echo 'checkout stage'
            }
   }
+     stage('Affichage de la date système') {
+            steps {
+                sh 'date'
+            }
+        }
     
   
     stage ('MVN BUILD') {

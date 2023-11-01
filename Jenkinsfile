@@ -58,7 +58,13 @@ pipeline {
         sh 'docker build -t achat:1-0'
       }
     }
-    
+        stage('build push image'){
+      steps{
+        sh "docker login -u youssefhadiji956 -p Hadijiyoussef@1998 "
+        sh " docker tag achat:1-0 youssefhadiji956/achat:1-0"
+        sh " docker push youssefhadiji956/achat:1-0"
+      }
+    }
   
  }
 }

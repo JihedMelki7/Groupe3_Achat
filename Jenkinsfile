@@ -53,6 +53,11 @@ pipeline {
         
       }
     }
+    stage('build image docker'){
+      steps{
+        sh ''
+      }
+    }
     
   
  }

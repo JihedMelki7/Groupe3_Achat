@@ -42,9 +42,7 @@ pipeline {
     }
      stage ('STATIC TEST WITH SONAR') {
        steps {
-        { 
           sh 'mvn sonar:sonar'
-        }
       }
     }
   

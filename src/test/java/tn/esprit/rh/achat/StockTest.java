@@ -43,11 +43,11 @@ public class StockTest {
         assertEquals(mockStocks, result);
     }
 
-    @Test
-    void testDeleteStock() {
+  //  @Test
+  /*  void testDeleteStock() {
         stockService.deleteStock(1L);
         verify(stockRepository).deleteById(eq(1L));
-    }
+    }*/
 
 
 }

@@ -20,7 +20,6 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
-@SpringBootTest
 @RunWith(MockitoJUnitRunner.class)
 
 public class StockTest {
@@ -29,12 +28,12 @@ public class StockTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @InjectMocks
-    private StockServiceImpl stockService;
-    @MockBean
+
+    @Mock
 
     private StockRepository stockRepository;
-
+    @InjectMocks
+    private StockServiceImpl stockService;
     @Test
     void testRetrieveAllStocks() {
         List<Stock> mockStocks = new ArrayList<>();

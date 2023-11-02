@@ -22,6 +22,6 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
 	
 	
 	
-	@Query("SELECT s FROM Stock s where s.qte< s.qteMin")
+	//@Query("SELECT s FROM Stock s where s.qte< s.qteMin")
 	List<Stock> retrieveStatusStock();
 }

@@ -1,8 +1,11 @@
-FROM openjdk:11-jre-slim
-EXPOSE 8089
+# Use an official OpenJDK runtime as a parent image
+FROM openjdk:19
+
+# Set the working directory to /app
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y curl 
-RUN curl -o achat-1.0.jar -L "http://192.168.222.131:8081/repository/maven-releases/tn/esprit/rh/achat/1.0/achat-1.0.jar"
-
-ENTRYPOINT ["java", "-jar", "achat-1.0.jar"]
+# Copy the JAR file from the host to the container
+COPY target/achat-1.0.jar /app/app.jar
+EXPOSE 8089
+# Specify the command to run your application
+CMD ["java", "-jar", "app.jar"]

@@ -60,7 +60,7 @@ pipeline {
         sh " docker push youssefhadiji956/achat:1-0"
       }
     }
-        stage('build image docker'){
+        stage('docker compose '){
       steps{
         sh 'docker compose up -d '
       }

@@ -61,7 +61,11 @@ stage ('docker push'){
             sh 'docker push malekkkk/achat:${DOCKER_TAG}'
         }
     }
-   
+stage('docker compose '){
+       steps{
+            sh 'docker compose up -d '
+      }
+    } 
 }
 }
 def getVersion()

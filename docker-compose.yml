@@ -1,4 +1,4 @@
-version: '3.0'
+version: '3.8'
 
 services:
   backend:
@@ -14,7 +14,9 @@ services:
     ports:
       - "3307:3306" # Port d'écoute de la base de données
     environment:
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_ALLOW_EMPTY_PASSWORD= "yes"
+      - MYSQL_ROOT_PASSWORD= root
+      - MYSQL_PASSWORD= 
     volumes:
       - dataDb:/var/lib/mysql # Stockage des données MySQL
 

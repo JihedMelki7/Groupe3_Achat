@@ -8,6 +8,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.testng.annotations.Test;
 import tn.esprit.rh.achat.entities.Stock;
 import tn.esprit.rh.achat.repositories.StockRepository;
@@ -30,7 +31,8 @@ public class StockTest {
 
     @InjectMocks
     private StockServiceImpl stockService;
-    @Mock
+    @MockBean
+
     private StockRepository stockRepository;
 
     @Test

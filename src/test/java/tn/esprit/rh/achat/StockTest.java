@@ -1,14 +1,11 @@
 package tn.esprit.rh.achat;
 
-import org.junit.jupiter.api.BeforeEach;
+
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.testng.annotations.Test;
 import tn.esprit.rh.achat.entities.Stock;
 import tn.esprit.rh.achat.repositories.StockRepository;
@@ -23,25 +20,20 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 
 public class StockTest {
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
-
 
     @Mock
 
     private StockRepository stockRepository;
     @InjectMocks
     private StockServiceImpl stockService;
-   /* @Test
+    @Test
     void testRetrieveAllStocks() {
         List<Stock> mockStocks = new ArrayList<>();
         mockStocks.add(new Stock());
         Mockito.when(stockRepository.findAll()).thenReturn(mockStocks);
         List<Stock> result = stockService.retrieveAllStocks();
         assertEquals(mockStocks, result);
-    }*/
+    }
 
     @Test
     void testDeleteStock() {

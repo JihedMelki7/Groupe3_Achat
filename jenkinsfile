@@ -52,7 +52,7 @@ stage('SonarQube Analysis') {
         }}
  stage('docker login'){
         steps {
-                withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerHubPwd')]) {      
+                withCredentials([string(credentialsId: 'dockerh', variable: 'dockerhubpwd')]) {      
                         sh "echo \$dockerHubPwd | docker login -u malekkkk --password-stdin"
             }}}
    

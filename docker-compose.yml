@@ -1,0 +1,22 @@
+version: '3.0'
+
+services:
+  backend:
+    image: hadijiyoussef956/achat:1-0 
+    restart: unless-stopped
+    ports:
+      - "8089:8089" 
+    depends_on:
+      - db
+  db:
+    image: mysql:5.7 # Utilisez une image Docker MySQL appropriée
+    restart: unless-stopped
+    ports:
+      - "3307:3306" # Port d'écoute de la base de données
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - dataDb:/var/lib/mysql # Stockage des données MySQL
+
+volumes:
+  dataDb:

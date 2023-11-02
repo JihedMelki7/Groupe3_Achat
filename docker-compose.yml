@@ -15,8 +15,6 @@ services:
       - "3307:3306" # Port d'écoute de la base de données
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD= "yes"
-      - MYSQL_ROOT_PASSWORD= root
-      - MYSQL_PASSWORD= 
     volumes:
       - dataDb:/var/lib/mysql # Stockage des données MySQL
 

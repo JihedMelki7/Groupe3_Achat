@@ -47,7 +47,7 @@ stage('SonarQube Analysis') {
 */
  stage('docker'){
         steps{ 
-                sh 'docker build . -t malekkkk/achat:${DOCKER_TAG}'   
+                sh 'docker build . -t malekkkk/achat:1.0'   
     
         }}
  stage('docker login'){
@@ -58,7 +58,7 @@ stage('SonarQube Analysis') {
    
 stage ('docker push'){
         steps{
-            sh 'docker push malekkkk/achat:${DOCKER_TAG}'
+            sh 'docker push malekkkk/achat:1.0'
         }
     }
 stage('docker compose '){

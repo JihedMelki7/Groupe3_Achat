@@ -14,13 +14,8 @@ pipeline {
         echo 'checkout stage'
            }
   }
-     stage('Affichage de la date système') {
-            steps {
-                sh 'date'
-            }
-        }
+
     
-  
     stage ('MVN BUILD') {
       steps {
         sh 'mvn clean package'

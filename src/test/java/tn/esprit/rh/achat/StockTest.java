@@ -34,20 +34,20 @@ public class StockTest {
     private StockRepository stockRepository;
     @InjectMocks
     private StockServiceImpl stockService;
-    @Test
+   /* @Test
     void testRetrieveAllStocks() {
         List<Stock> mockStocks = new ArrayList<>();
         mockStocks.add(new Stock());
         Mockito.when(stockRepository.findAll()).thenReturn(mockStocks);
         List<Stock> result = stockService.retrieveAllStocks();
         assertEquals(mockStocks, result);
-    }
+    }*/
 
-  //  @Test
-  /*  void testDeleteStock() {
+    @Test
+    void testDeleteStock() {
         stockService.deleteStock(1L);
         verify(stockRepository).deleteById(eq(1L));
-    }*/
+    }
 
 
 }

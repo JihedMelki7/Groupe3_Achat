@@ -124,14 +124,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
-<distributionManagement>
-		<repository>
-			<id>deploymentRepo</id>
-			<name>Nexus Repository</name>
-			<url>http://localhost:8081/repository/maven-releases/</url>
-		</repository>
-	</distributionManagement>
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -142,6 +134,13 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+		<distributionManagement>
+		<repository>
+			<id>deploymentRepo</id>
+			<name>Nexus Repository</name>
+			<url>http://localhost:8081/repository/maven-releases/</url>
+		</repository>
+	</distributionManagement>
 	</build>
 
 </project>

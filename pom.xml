@@ -71,6 +71,12 @@
 			<version>0.8.7</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>7.4.0</version> <!-- Utilisez la dernière version de TestNG disponible -->
+        <scope>test</scope>
+    </dependency>
 
 	</dependencies>
 

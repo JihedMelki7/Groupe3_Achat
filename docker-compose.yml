@@ -11,6 +11,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=
       - MYSQL_DATABASE=root
+      - MYSQLDB_DATABASE=achatdb
   backend:
     image: youssefhadiji956/achat:2-0 
     restart: unless-stopped

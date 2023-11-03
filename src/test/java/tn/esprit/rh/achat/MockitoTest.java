@@ -46,7 +46,7 @@ public class MockitoTest {
 //    ObjectMapper objectMapper = new ObjectMapper();
 //    ObjectWriter objectWriter = objectMapper.writer();
 //@Mock
-// private StockRepository stockRepository;
+// private StockRepository s tockRepository;
 //@InjectMocks
 //    private StockRestController stockRestController;
 //

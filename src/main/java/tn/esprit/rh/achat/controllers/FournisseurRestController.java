@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @Api(tags = "Gestion des fournisseurss")
 @RequestMapping("/fournisseur")
-public class FournisseurRestController {
+public class  FournisseurRestController {
 
 	@Autowired
 	IFournisseurService fournisseurService;

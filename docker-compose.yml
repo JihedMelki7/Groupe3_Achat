@@ -3,7 +3,7 @@ services:
   backend:
     depends_on: [db]
     image: youssefhadiji956/achat:2-0
-   restart: unless-stopped
+    restart: unless-stopped
     ports:
       - "8089:8089"
   

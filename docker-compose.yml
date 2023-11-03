@@ -1,15 +1,21 @@
-version: '3.8'
+version: "3.8"
+networks:
+  mynetwork: 
+    driver: bridge # Créez un réseau personnalisé ici
 
 services:
   db:
-    image: mysql:5.7.8
+    image: mysql:5.7
     restart: unless-stopped
-    ports:
-      - 3307:3306
-    volumes:
-      - db:/var/lib/mysql
     environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: achatdb
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql  # Définissez le volume "db_data" ici
+    networks:
+      - mynetwork  # Attachez le service au réseau personnalisé
   backend:
     image: youssefhadiji956/achat:1-0 
     restart: unless-stopped
@@ -17,6 +23,8 @@ services:
       - 8089:8089
     depends_on:
       - db
+    networks:
+      - mynetwork
       
 volumes:
   db:

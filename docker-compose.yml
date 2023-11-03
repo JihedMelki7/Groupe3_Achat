@@ -9,6 +9,7 @@ services:
     environment:
       MYSQL_DATABASE: achatdb
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: root
     ports:
       - "3307:3306"
     volumes:

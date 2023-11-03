@@ -5,7 +5,7 @@ services:
     image: malekkkk/achat:1.0
     ports:
       - "8089:8089"
-   front:
+  front:
     depends_on: [backend]
     image: malekkkk/achatang:1.0  
     ports:

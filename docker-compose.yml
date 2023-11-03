@@ -9,6 +9,7 @@ services:
   
   db:
     image: mysql:8.0
+    restart: unless-stopped
     container_name: mysql-db
     environment:
       MYSQL_DATABASE: achatdb

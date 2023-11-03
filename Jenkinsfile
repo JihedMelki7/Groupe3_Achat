@@ -54,11 +54,7 @@ pipeline {
         sh " docker push youssefhadiji956/achat:2-0"
       }
     }
-       stage('DOCKER down'){
-      steps{
-        sh 'docker compose down '
-      }
-    }
+
         stage('DOCKER COMPOSE'){
       steps{
         sh 'docker compose up -d '

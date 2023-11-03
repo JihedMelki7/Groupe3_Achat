@@ -47,6 +47,11 @@ stage ('NEXUS ') {
         
       }
     }
+ stage('BUILD IMAGE'){
+      steps{
+        sh 'docker build -t achat:2-0 . '
+      }
+    }
 
         
     }

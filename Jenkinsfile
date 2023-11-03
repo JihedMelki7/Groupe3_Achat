@@ -44,14 +44,14 @@ pipeline {
     }
     stage('BUILD IMAGE'){
       steps{
-        sh 'docker build -t achat:1-0 . '
+        sh 'docker build -t achat:2-0 . '
       }
     }
         stage('PUSH IMAGE'){
       steps{
         sh "docker login -u youssefhadiji956 -p Hadijiyoussef@1998 "
-        sh " docker tag achat:1-0 youssefhadiji956/achat:1-0"
-        sh " docker push youssefhadiji956/achat:1-0"
+        sh " docker tag achat:2-0 youssefhadiji956/achat:2-0"
+        sh " docker push youssefhadiji956/achat:2-0"
       }
     }
        stage('DOCKER down'){

@@ -52,7 +52,7 @@ pipeline {
         }
    stage('BUILD IMAGE'){
       steps{
-        sh 'docker build -t achat:2-0 . '
+        sh 'docker build -t achat:1-0 . '
       }
     }
     }

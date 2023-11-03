@@ -1,7 +1,6 @@
 version: "3.8"
 networks:
-  mynetwork: 
-    driver: bridge # Créez un réseau personnalisé ici
+  mynetwork: # Créez un réseau personnalisé ici
 
 services:
   db:

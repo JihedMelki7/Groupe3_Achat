@@ -1,4 +1,3 @@
-
 pipeline {
     agent any
 
@@ -28,23 +27,28 @@ pipeline {
                 }
             }
         }
-        
-        
+
         stage('SonarQube Analysis') {
-           steps {
-             withSonarQubeEnv('sonarqueb') {
-               sh "mvn sonar:sonar"
-             }
+            steps {
+                withSonarQubeEnv('sonarqueb') {
+                    sh "mvn sonar:sonar"
+                }
             }
         }
-     stage ('MVN TEST') {
-      steps {
-        sh 'mvn test'
-      }
-    }
 
-        
-    }
+        stage ('MVN TEST') {
+            steps {
+                sh 'mvn test'
+            }
+        }
 
-   
+        stage('Nexus') {
+            steps {
+                script {
+                    // Exécute la commande "mvn deploy" en sautant les tests
+                    sh 'mvn deploy -DskipTests'
+                }
+            }
+        }
+    }
 }

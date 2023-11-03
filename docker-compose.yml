@@ -9,22 +9,12 @@ services:
     volumes:
       - db:/var/lib/mysql
     environment:
-      - MYSQL_ROOT_PASSWORD=
-      - MYSQL_DATABASE=root
-      - MYSQLDB_DATABASE=achatdb
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
   backend:
     image: youssefhadiji956/achat:2-0 
     restart: unless-stopped
     ports:
       - 8089:8089
-    environment:
-      SPRING_APPLICATION_JSON: '{
-        "spring.datasource.url"  : "jdbc:mysql://db:3306/achatdb?useSSL=false",
-        "spring.datasource.username" : "root",
-        "spring.datasource.password" : "",
-        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.MySQL5InnoDBDialect",
-        "spring.jpa.hibernate.ddl-auto" : "update"
-      }'
     depends_on:
       - db
       

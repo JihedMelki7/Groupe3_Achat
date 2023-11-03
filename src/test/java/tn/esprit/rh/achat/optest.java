@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import tn.esprit.rh.achat.entities.Operateur;
@@ -27,6 +28,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 @ContextConfiguration(classes = {OperateurServiceImpl.class})
+@SpringBootTest
 public class optest {
     @InjectMocks
     OperateurServiceImpl operateurService;

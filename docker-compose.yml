@@ -9,7 +9,8 @@ services:
     volumes:
       - db:/var/lib/mysql
     environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=root
   backend:
     image: youssefhadiji956/achat:2-0 
     restart: unless-stopped

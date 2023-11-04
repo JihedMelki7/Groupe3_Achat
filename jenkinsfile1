@@ -55,5 +55,21 @@ pipeline {
         sh 'docker build -t achat:1-0 . '
       }
     }
+stage('Push vers Docker Hub') {
+    steps {
+        script {
+            def dockerHubUsername = "achrefdoce"  
+            def dockerHubPassword = "dckr_pat_oXKbwxDrxfHxgNlnHtOL48JY_d0"  
+            def dockerImageName = "achat:2-0"
+            def dockerHubImageName = "achrefdoce/achat:1-0" 
+            sh "docker login -u $dockerHubUsername -p $dockerHubPassword"
+
+            sh "docker tag $dockerImageName $dockerHubImageName"
+
+            sh "docker push $dockerHubImageName"
+        }
+    }
+}
+
     }
 }

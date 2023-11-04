@@ -61,7 +61,7 @@ stage('Push vers Docker Hub') {
            
             def dockerHubImageName = "achrefdoce/achat:1-0"  
    withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
-                   sh 'docker login -u javatechie -p ${dockerhub}'
+                   sh 'docker login -u achrefdoce -p ${dockerhub}'
             sh "docker push $dockerHubImageName"
         }
     }

@@ -52,6 +52,13 @@ stage ('NEXUS ') {
         sh 'docker build -t achat:2-0 . '
       }
     }
+ stage('PUSH IMAGE'){
+      steps{
+        sh "docker login -u nourchenebouarada -p Nourchene17102021 "
+        sh " docker tag achat:2-0 nourchenebouarada/achat:2-0"
+        sh " docker push nourchenebouarada/achat:2-0"
+      }
+    }
 
         
     }

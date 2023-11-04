@@ -1,12 +1,17 @@
 version: "2"
 services: 
+  front:
+    image: youssefhadiji956/front:2-0  # Replace with the actual image for your front-end
+    restart: unless-stopped
+    ports:
+      - 80:80
   backend:
     depends_on: [db]
     image: youssefhadiji956/achat:2-0
     restart: unless-stopped
     ports:
       - "8089:8089"
-  
+
   db:
     image: mysql:8.0
     restart: unless-stopped

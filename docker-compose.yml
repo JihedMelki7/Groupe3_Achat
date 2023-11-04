@@ -18,4 +18,4 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_PASSWORD: root
     ports:
-      - "3307:3306"  # Fix the indentation here
+      - "3307:3306"

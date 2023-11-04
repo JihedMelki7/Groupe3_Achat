@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 FROM openjdk:11-jre-slim
 EXPOSE 8089
 WORKDIR /app

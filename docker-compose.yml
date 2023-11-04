@@ -1,7 +1,7 @@
 version: "2"
 services: 
   front:
-    image: youssefhadiji956/front:2-0  # Replace with the actual image for your front-end
+    image: youssefhadiji956/front:3-0  # Replace with the actual image for your front-end
     restart: unless-stopped
     ports:
       - 80:80

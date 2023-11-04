@@ -70,3 +70,4 @@ stage('Push vers Docker Hub') {
 
     }
 }
+}

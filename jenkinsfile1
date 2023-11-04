@@ -58,18 +58,28 @@ pipeline {
 stage('Push vers Docker Hub') {
     steps {
         script {
-            def dockerHubUsername = "achrefdoce"  
-            def dockerHubPassword = "dckr_pat_oXKbwxDrxfHxgNlnHtOL48JY_d0"  
-            def dockerImageName = "achat:2-0"
-            def dockerHubImageName = "achrefdoce/achat:1-0" 
-            sh "docker login -u $dockerHubUsername -p $dockerHubPassword"
+            // Identifiants Docker Hub
+            def dockerHubUsername = "achrefdoce"  // Remplacez par votre nom d'utilisateur Docker Hub
+            def dockerHubToken = "dckr_pat_oXKbwxDrxfHxgNlnHtOL48JY_d0"  // Remplacez par votre token d'accès
 
+            // Nom de l'image et tag
+            def dockerImageName = "achat:2-0"
+            def dockerHubImageName = "achrefdoce/achat:2-0"  // Remplacez par votre nom d'utilisateur et le nom de l'image sur Docker Hub
+
+            // Se connecter à Docker Hub avec le token
+            withCredentials([string(credentialsId: 'DOCKERHUB_TOKEN', variable: 'DOCKER_TOKEN')]) {
+                sh "echo $DOCKER_TOKEN | docker login --username $dockerHubUsername --password-stdin"
+            }
+
+            // Tag l'image pour Docker Hub
             sh "docker tag $dockerImageName $dockerHubImageName"
 
+            // Pousser l'image vers Docker Hub
             sh "docker push $dockerHubImageName"
         }
     }
 }
+
 
     }
 }

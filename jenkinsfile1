@@ -1,4 +1,4 @@
-pipeline {
+ pipeline {
     agent any
 
     stages {
@@ -60,8 +60,10 @@ stage('Push vers Docker Hub') {
         script {
            
             def dockerHubImageName = "achrefdoce/achat:1-0"  
-   withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
+          withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
                    sh 'docker login -u achrefdoce -p ${dockerhub}'
+        sh " docker tag achat:1-0 achrefdoce/achat:1-0"
+
             sh "docker push $dockerHubImageName"
         }
     }

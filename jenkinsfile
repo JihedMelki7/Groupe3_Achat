@@ -59,6 +59,11 @@ stage ('NEXUS ') {
         sh " docker push nourchenebouarada/achat:2-0"
       }
     }
+stage('DOCKER COMPOSE'){
+      steps{
+        sh 'docker compose up -d '
+      }
+    }
 
         
     }

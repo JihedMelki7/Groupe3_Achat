@@ -63,8 +63,8 @@ stage('Push vers Docker Hub') {
             def dockerHubToken = "dckr_pat_oXKbwxDrxfHxgNlnHtOL48JY_d0"  // Remplacez par votre token d'accès
 
             // Nom de l'image et tag
-            def dockerImageName = "achat:2-0"
-            def dockerHubImageName = "achrefdoce/achat:2-0"  // Remplacez par votre nom d'utilisateur et le nom de l'image sur Docker Hub
+            def dockerImageName = "achat:1-0"
+            def dockerHubImageName = "achrefdoce/achat:1-0"  // Remplacez par votre nom d'utilisateur et le nom de l'image sur Docker Hub
 
             // Se connecter à Docker Hub avec le token
             withCredentials([string(credentialsId: 'DOCKERHUB_TOKEN', variable: 'DOCKER_TOKEN')]) {

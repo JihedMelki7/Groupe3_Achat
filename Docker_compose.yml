@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  frontend:
+    image: nourchenebouarada/achat
+    restart: unless-stopped
+    ports:
+      - "80:80"  # Port du frontend
+
+  backend:
+    image: nourchenebouarada/achat:2-0
+    ports:
+      - "8089:8089"  # Port du backend
+
+  database:
+    image: mysql:latest
+    ports:
+      - "3306:3306"  # Port MySQL
+    environment:
+      - MYSQL_ROOT_PASSWORD=yourpassword
+      - MYSQL_DATABASE=achatdb
+
+

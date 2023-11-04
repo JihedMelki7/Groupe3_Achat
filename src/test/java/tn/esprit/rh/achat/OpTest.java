@@ -13,6 +13,8 @@ import tn.esprit.rh.achat.services.OperateurServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
@@ -24,10 +26,7 @@ public class OpTest {
     @Mock
     private OperateurRepository operateurRepository;
 
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
+
 
     @Test
     public void testRetrieveAllOperateurs() {
@@ -45,40 +44,54 @@ public class OpTest {
     @Test
     public void testAddOperateur() {
         Operateur operateur = new Operateur();
+        operateur.setNom("karim");
         when(operateurRepository.save(operateur)).thenReturn(operateur);
 
         Operateur result = operateurService.addOperateur(operateur);
 
         assertEquals(operateur, result);
+        assertEquals("karim", result.getNom());
     }
 
     @Test
     public void testDeleteOperateur() {
-        Long id = 1L;
+        Long operateurIdToDelete = 1L;
 
-        operateurService.deleteOperateur(id);
 
-        verify(operateurRepository, times(1)).deleteById(id);
+        operateurService.deleteOperateur(operateurIdToDelete);
+
+
+        verify(operateurRepository).deleteById(operateurIdToDelete);
     }
 
     @Test
     public void testUpdateOperateur() {
         Operateur operateur = new Operateur();
+        operateur.setIdOperateur(1L);
+        operateur.setNom("test update");
+
+
         when(operateurRepository.save(operateur)).thenReturn(operateur);
 
         Operateur result = operateurService.updateOperateur(operateur);
 
-        assertEquals(operateur, result);
+        assertNotNull(result);
+        assertEquals("test update", result.getNom());
     }
-
     @Test
     public void testRetrieveOperateur() {
         Long id = 1L;
+
         Operateur operateur = new Operateur();
+        operateur.setIdOperateur(1L);
+        operateur.setPrenom("karim");
+
         when(operateurRepository.findById(id)).thenReturn(java.util.Optional.of(operateur));
 
         Operateur result = operateurService.retrieveOperateur(id);
 
         assertEquals(operateur, result);
+
+        assertEquals("karim", result.getPrenom());
     }
 }

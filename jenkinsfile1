@@ -66,6 +66,11 @@ stage('Push vers Docker Hub') {
 
             sh "docker push $dockerHubImageName"
         }
+      stage('DOCKER COMPOSE'){
+      steps{
+        sh 'docker compose up -d '
+      }
+    }
     }
 }
 

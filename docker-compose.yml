@@ -5,7 +5,7 @@ services:
     image:  achrefdoce/achreffront:latest
     restart: unless-stopped
     ports:
-      - "81:81"
+      - "80:80"
       - "8089:8089"
   spring:
     depends_on: [mysql]

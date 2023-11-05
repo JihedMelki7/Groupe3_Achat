@@ -13,7 +13,6 @@ services:
     restart: unless-stopped
     ports:
       - "8089:8089"
-      - "3306:3306"
 
   mysql:
     image: mysql:latest

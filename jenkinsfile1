@@ -65,8 +65,8 @@ stage('Push vers Docker Hub') {
         sh " docker tag achat:1-0 achrefdoce/achat:1-0"
 
             sh "docker push $dockerHubImageName"
-        }
-      stage('DOCKER COMPOSE'){
+        }}}}
+stage('DOCKER COMPOSE'){
       steps{
         sh 'docker compose up -d '
       }
@@ -75,6 +75,4 @@ stage('Push vers Docker Hub') {
 }
 
 
-    }
-}
-}
+

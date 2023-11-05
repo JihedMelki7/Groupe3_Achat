@@ -6,7 +6,6 @@ services:
     restart: unless-stopped
     ports:
       - "80:80"
-      - "8089:8089"
   spring:
     depends_on: [mysql]
     image: achrefdoce/achat:1-0

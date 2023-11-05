@@ -2,7 +2,7 @@ version: '3'
 
 services:
   frontend:
-    image: nourchenebouarada/achat
+    image: nourchenebouarada/achat:2-0
     restart: unless-stopped
     ports:
       - "80:80"  # Port du frontend

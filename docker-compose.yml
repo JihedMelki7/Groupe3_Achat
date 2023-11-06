@@ -2,7 +2,7 @@ version: "1"
 services:
   front:
     depends_on: [spring]
-    image: achrefdoce/achreffront:latest
+    image: achrefdoce/achref:latest
     container_name: front
     restart: unless-stopped
     ports:

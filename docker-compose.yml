@@ -4,13 +4,14 @@ services:
     depends_on: [spring]
     image: achrefdoce/achreffront:latest
     container_name: front
-
     restart: unless-stopped
     ports:
       - "80:80"
   spring:
     depends_on: [mysql]
     image: achrefdoce/achat:1-0
+    container_name: spring
+
     restart: unless-stopped
     ports:
       - "8089:8089"  

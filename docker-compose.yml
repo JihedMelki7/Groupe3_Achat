@@ -1,4 +1,4 @@
-version: "2"
+version: "3"
 services:
   front:
     depends_on: [spring]
@@ -7,9 +7,7 @@ services:
     restart: unless-stopped
     ports:
       - "80:80"
-      - "8089:8089"  
-    networks:
-      - my_network
+
       
   spring:
     depends_on: [mysql]
@@ -19,8 +17,7 @@ services:
     restart: unless-stopped
     ports:
       - "8089:8089"  
-    networks:
-      - my_network
+  
       
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/achatdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC

@@ -3,6 +3,8 @@ services:
   front:
     depends_on: [spring]
     image: achrefdoce/achreffront:latest
+    container_name: front
+
     restart: unless-stopped
     ports:
       - "80:80"

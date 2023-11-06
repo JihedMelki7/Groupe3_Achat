@@ -1,4 +1,4 @@
-version: "3"
+version: "2"
 services:
   front:
     depends_on: [spring]
@@ -17,6 +17,8 @@ services:
     restart: unless-stopped
     ports:
       - "8089:8089"  
+    networks:
+      - my_network
   
       
     environment:

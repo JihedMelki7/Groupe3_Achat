@@ -12,7 +12,6 @@ services:
     restart: unless-stopped
     ports:
       - "8089:8089"
-
   mysql:
     image: mysql:latest
     restart: unless-stopped
@@ -22,4 +21,11 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_PASSWORD: root
     ports:
-      - "3306:3307"
+      - "3306:3306"
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge
+

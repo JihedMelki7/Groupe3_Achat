@@ -33,7 +33,7 @@ pipeline {
 
           stage ('SONAR') {
        steps {
-        withCredentials([usernamePassword(credentialsId: 'a8b63053-9fcf-41e8-b155-8c14dcc9117d', passwordVariable: 'sonar', usernameVariable: 'admin')]) {
+        withCredentials([usernamePassword(credentialsId: 'f6ef2775-c9c0-41a2-a557-feee36341238', passwordVariable: 'sonar', usernameVariable: 'admin')]) {
                     sh "mvn sonar:sonar -Dsonar.login=$admin -Dsonar.password=$sonar"
                 }
       }

@@ -1,4 +1,4 @@
- version: "2"
+version: "2"
 services:
   front:
     depends_on: [spring]

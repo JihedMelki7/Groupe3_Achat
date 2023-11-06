@@ -2,13 +2,13 @@ version: '3'
 
 services:
   frontend:
-    image: nourchenebouarada/achat:2-0
+    image: nourchenebouarada/achat:1-0
     restart: unless-stopped
     ports:
       - 8082:80 
 
   backend:
-    image: nourchenebouarada/achat:2-0
+    image: nourchenebouarada/achat:1-0
     ports:
       - "8089:8089"  # Port du backend
 

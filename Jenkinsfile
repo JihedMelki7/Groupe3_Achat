@@ -31,13 +31,13 @@ pipeline {
             }
         }
 
-        stage ('SONAR') {
-       steps {
-        withCredentials([usernamePassword(credentialsId: 'b29c8358-2305-401b-b2f3-834f94c1d8a8', passwordVariable: 'sonar', usernameVariable: 'admin')]) {
-                    sh "mvn sonar:sonar -Dsonar.login=$admin -Dsonar.password=$sonar"
-                }
-      }
-    }
+         stage('SonarQube Analysis') {
+           steps {
+             withSonarQubeEnv('sonarqube') {
+               sh "mvn sonar:sonar"
+             }
+            }
+        }
 
        stage('Unit Tests') {
           steps {

@@ -1,4 +1,4 @@
-version: "2"
+ version: "2"
 services:
   front:
     depends_on: [spring]
@@ -25,7 +25,7 @@ services:
   mysql:
     image: mysql:latest
     restart: unless-stopped
-    container_name: mysql-db
+    container_name: mysql
     environment:
       MYSQL_DATABASE: achatdb
       MYSQL_ROOT_PASSWORD: root

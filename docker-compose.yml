@@ -23,7 +23,7 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: "update"
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL5InnoDBDialect
   mysql:
-    image: mysql:latest
+    image: mysql:8.0
     restart: unless-stopped
     container_name: mysql-db
     environment:

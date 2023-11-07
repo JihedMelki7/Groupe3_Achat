@@ -15,8 +15,8 @@ services:
       - my_network
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/achatdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
-      SPRING_DATASOURCE_USERNAME: 
-      SPRING_DATASOURCE_PASSWORD:   
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root  
       SPRING_JPA_SHOW_SQL: "true"
       SPRING_JPA_HIBERNATE_DDL_AUTO: "update"
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -26,8 +26,7 @@ services:
     container_name: mysql
     environment:
       MYSQL_DATABASE: achatdb
-      MYSQL_ROOT_PASSWORD: 
-      MYSQL_PASSWORD: 
+      MYSQL_PASSWORD: root
     ports:
       - "3306:3306"
     networks:

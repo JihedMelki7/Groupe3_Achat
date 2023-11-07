@@ -28,7 +28,7 @@ services:
       MYSQL_DATABASE: achatdb
       MYSQL_PASSWORD: root
     ports:
-      - "33060:33060"
+      - "3306:3306"
     networks:
       - my_network
 

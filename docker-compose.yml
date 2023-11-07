@@ -7,14 +7,13 @@ services:
       - 8082:80 
 
   backend:
-    depends_on:
-      - mysql
+    depends_on: [db]
     image: nourchenebouarada/achatnourchene:latest
     restart: unless-stopped
     ports:
       - "8089:8089"  # Port du backend
 
-  mysql:
+  db:
     image: mysql:latest
     container_name: mysqldatabase
     restart: unless-stopped

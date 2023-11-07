@@ -10,6 +10,7 @@ services:
     depends_on:
       - mysql
     image: nourchenebouarada/achatnourchene:latest
+    restart: unless-stopped
     ports:
       - "8089:8089"  # Port du backend
 

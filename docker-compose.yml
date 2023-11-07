@@ -38,10 +38,13 @@ services:
       MYSQL_DATABASE: achatdb
       MYSQL_ROOT_PASSWORD: root
       MYSQL_PASSWORD: root
+    ports:
+      - "3037:3306"
+
   
     networks:
       - my_network
 
 networks:
   my_network:
-    driver: host
+    driver: bridge

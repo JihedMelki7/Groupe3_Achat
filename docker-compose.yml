@@ -8,18 +8,18 @@ services:
       - 8082:80 
 
   backend:
-    depends_on: [database]
+    depends_on: [mysql]
     image: nourchenebouarada/achatnourchene:latest
     ports:
       - "8089:8089"  # Port du backend
 
-  database:
+ mysql:
     image: mysql:latest
     ports:
       - "3306:3306"  # Port MySQL
     environment:
       MYSQL_DATABASE: achatdb
-      MYSQL_ROOT_PASSWORD: 111
+      MYSQL_ROOT_PASSWORD: nour
      
 
 

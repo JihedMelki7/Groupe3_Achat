@@ -17,6 +17,7 @@ services:
   mysql:
     image: mysql:latest
     container_name: mysqldatabase
+    restart: unless-stopped
     environment:
       MYSQL_DATABASE: achatdb
       MYSQL_ROOT_PASSWORD: root

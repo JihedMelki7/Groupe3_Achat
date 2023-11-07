@@ -9,7 +9,7 @@ services:
 
   backend:
     depends_on: [database]
-    image: nourchenebouarada/achat:1-0
+    image: nourchenebouarada/achatnourchene:latest
     ports:
       - "8089:8089"  # Port du backend
 

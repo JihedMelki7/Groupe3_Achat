@@ -5,18 +5,19 @@ services:
     restart: unless-stopped
     ports:
       - 8082:80 
-       
+
   backend:
-    depends_on: [mysql]
+    depends_on:
+      - mysql
     image: nourchenebouarada/achatnourchene:latest
     ports:
       - "8089:8089"  # Port du backend
-      
+
   mysql:
     image: mysql:latest
     ports:
       - "3307:3306"  # Port MySQL
-   environment:
+    environment:
       MYSQL_DATABASE: achatdb
       MYSQL_ROOT_PASSWORD: root
       MYSQL_PASSWORD: root

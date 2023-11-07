@@ -19,6 +19,6 @@ services:
       - "3306:3306"  # Port MySQL
     environment:
       - MYSQL_ROOT_PASSWORD=111
-      - MYSQL_DATABASE=achatdb
+      - MYSQL_DATABASE=root
 
 

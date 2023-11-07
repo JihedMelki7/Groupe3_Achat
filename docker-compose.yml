@@ -16,7 +16,7 @@ services:
   mysql:
     image: mysql:latest
     ports:
-      - "3306:3306"  # Port MySQL
+      - "3307:3306"  # Port MySQL
     environment:
       MYSQL_DATABASE: achatdb
       MYSQL_ROOT_PASSWORD: nour

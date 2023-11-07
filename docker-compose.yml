@@ -13,7 +13,7 @@ services:
     ports:
       - "8089:8089"  # Port du backend
 
- mysql:
+  mysql:
     image: mysql:latest
     ports:
       - "3306:3306"  # Port MySQL

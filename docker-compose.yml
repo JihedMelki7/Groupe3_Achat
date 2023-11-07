@@ -23,7 +23,6 @@ services:
     container_name: mysql
     restart: unless-stopped
     environment:
-    environment:
       MYSQL_DATABASE: achatdb
       MYSQL_USER: root
       MYSQL_ROOT_PASSWORD: root

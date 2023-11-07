@@ -12,22 +12,12 @@ services:
     image: nourchenebouarada/achatnourchene:latest
     ports:
       - "8089:8089"  # Port du backend
-    networks:
-      - my_network
-
+      
   mysql:
     image: mysql:latest
     ports:
       - "3307:3306"  # Port MySQL
-    environment:
+   environment:
       MYSQL_DATABASE: achatdb
-      MYSQL_ROOT_PASSWORD: nour
-    networks:
-      - my_network
-
-networks:
-    my_network:
-      driver: bridge
-     
-
-
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: root

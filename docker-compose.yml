@@ -23,7 +23,7 @@ services:
     networks:
       - my_network
 
-  networks:
+networks:
     my_network:
       driver: bridge
      

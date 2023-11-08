@@ -1,4 +1,4 @@
-FROM fabric8/java-alpine-openjdk8-jdk
+FROM openjdk:11
 EXPOSE 8089
 WORKDIR /app
 

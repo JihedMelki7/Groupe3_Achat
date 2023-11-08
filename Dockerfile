@@ -1,4 +1,4 @@
-FROM openjdk:11-jre-slim
+FROM openjdk:latest
 EXPOSE 8089
 WORKDIR /app
 

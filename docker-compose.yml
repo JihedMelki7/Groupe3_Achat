@@ -1,8 +1,5 @@
 version: "2"
 services:
-networks:
-  my_network:
-    driver: bridge
   frontend:
     image: nourchenebouarada/angular:latest
     restart: unless-stopped
@@ -35,6 +32,8 @@ networks:
       SPRING_JPA_SHOW_SQL: "true"
       SPRING_JPA_HIBERNATE_DDL_AUTO: "update"
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL5InnoDBDialect
-  
+ networks:
+  my_network:
+    driver: bridge
 
 

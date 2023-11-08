@@ -1,10 +1,25 @@
 version: "2"
 services:
+networks:
+  my_network:
+    driver: bridge
   frontend:
     image: nourchenebouarada/angular:latest
     restart: unless-stopped
     ports:
       - "8082:80" 
+  mysql:
+    image: mysql:8
+    restart: unless-stopped
+    container_name: mysql
+    environment:
+      MYSQL_DATABASE: achatdb
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: root
+    ports:
+      - "3307:3306"
+    networks:
+      - my_network
   backend:
     depends_on: [mysql]
     image: nourchenebouarada/achatnourchene:latest
@@ -20,19 +35,6 @@ services:
       SPRING_JPA_SHOW_SQL: "true"
       SPRING_JPA_HIBERNATE_DDL_AUTO: "update"
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL5InnoDBDialect
-  mysql:
-    image: mysql:8
-    restart: unless-stopped
-    container_name: mysql
-    environment:
-      MYSQL_DATABASE: achatdb
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_PASSWORD: root
-    ports:
-      - "3307:3306"
-    networks:
-      - my_network
+  
 
-networks:
-  my_network:
-    driver: bridge
+

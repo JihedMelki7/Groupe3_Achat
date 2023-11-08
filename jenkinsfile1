@@ -59,7 +59,7 @@ stage('Push vers Docker Hub') {
     steps {
         script {
            
-            def dockerHubImageName = "achrefdoce/achat:latest"  
+            def dockerHubImageName = "achrefdoce/acht:latest"  
           withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
                    sh 'docker login -u achrefdoce -p ${dockerhub}'
         sh " docker tag achat:1-0 $dockerHubImageName"

@@ -59,9 +59,8 @@ pipeline {
       }
     }
 
-        stage('DOCKER COMPOSE'){
+        stage('STAR APP'){
       steps{
-        sh' docker compose down '
         sh 'docker compose up -d '
       }
     }

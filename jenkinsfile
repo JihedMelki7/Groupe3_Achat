@@ -56,8 +56,8 @@ stage ('NEXUS ') {
       steps{
   withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
                    sh 'docker login -u nourchenebouarada -p ${dockerhub}'
-        sh " docker tag achat:1-0 nourchenebouarada/achatnourchene"
-        sh " docker push nourchenebouarada/achatnourchene "
+        sh " docker tag achat:1-0 nourchenebouarada/nourchenefront"
+        sh " docker push nourchenebouarada/nourchenefront "
       }}
     }
 stage('DOCKER COMPOSE'){

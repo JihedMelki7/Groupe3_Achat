@@ -49,15 +49,15 @@ stage ('NEXUS ') {
     }
  stage('BUILD IMAGE'){
       steps{
-        sh 'docker build -t achat:1-0 . '
+        sh 'docker build -t achat:latest . '
       }
     }
  stage('PUSH IMAGE'){
       steps{
   withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
                    sh 'docker login -u nourchenebouarada -p ${dockerhub}'
-        sh " docker tag achat:1-0 nourchenebouarada/nourchenefront"
-        sh " docker push nourchenebouarada/nourchenefront "
+        sh " docker tag achat:latest nourchenebouarada/nourchenesprng"
+        sh " docker push nourchenebouarada/nourchenespring "
       }}
     }
 stage('DOCKER COMPOSE'){

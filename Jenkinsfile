@@ -31,9 +31,9 @@ pipeline {
             }
         }
 
-          stage ('SONAR') {
-       steps {
-        withCredentials([usernamePassword(credentialsId: 'f6ef2775-c9c0-41a2-a557-feee36341238', passwordVariable: 'sonar', usernameVariable: 'admin')]) {
+        stage ('SONAR') {
+           steps {
+                withCredentials([usernamePassword(credentialsId: 'f6ef2775-c9c0-41a2-a557-feee36341238', passwordVariable: 'sonar', usernameVariable: 'admin')]) {
                     sh "mvn sonar:sonar -Dsonar.login=$admin -Dsonar.password=$sonar"
                 }
       }
@@ -41,15 +41,20 @@ pipeline {
 
        stage('Unit Tests') {
           steps {
-          sh 'mvn test'  
+              sh 'mvn test'  
                 }
         }
-
-            stage ('NEXUS ') {
-       steps {
-       sh 'mvn deploy -DskipTests'
         
-      }
-    }
+        stage ('NEXUS ') {
+            steps {
+               sh 'mvn deploy -DskipTests'
+                  }
+        }
+        
+        stage('BUILD IMAGE'){
+            steps{
+                sh 'docker build -t achat:6-0 . '
+                  }
+        }
     }
 }

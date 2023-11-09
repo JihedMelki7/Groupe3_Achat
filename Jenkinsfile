@@ -44,7 +44,7 @@ pipeline {
     }
     stage('BUILD IMAGE'){
       steps{
-        sh 'docker build -t achat:3-0 . '
+        sh 'docker build -t achat:4-0 . '
       }
     }
         stage('Login') {

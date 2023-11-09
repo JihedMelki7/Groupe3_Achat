@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-    DOCKERHUB_CREDENTIALS = credentials('DockerHub Credentials')
-  }
-
     stages {
         
         stage('GIT') {
@@ -56,15 +52,17 @@ pipeline {
         }
         
         stage('BUILD IMAGE'){
-            steps{
-                sh 'docker build -t achat:6-0 . '
-                  }
-        }
-        
-        stage('Login') {
-            steps {
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                  }
-        }
+      steps{
+        sh 'docker build -t achat:2.0 . '
+      }
+    }
+ stage('PUSH IMAGE'){
+      steps{
+  withCredentials([string(credentialsId: '749f4c67-9c26-4b99-b03c-0ced31ab11f4', variable: 'dockerhub')]) {
+                   sh 'docker login -u JihedMelki -p ${dockerhub}'
+        sh " docker tag achat:2.0 JihedMelki/springimage1"
+        sh " docker push JihedMelki/springimage1 "
+      }}
+    }
     }
 }

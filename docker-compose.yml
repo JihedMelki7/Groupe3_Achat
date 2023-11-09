@@ -11,12 +11,12 @@ services:
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
   backend:
-    image: aymena26/achateer:1222
+    image: aymena26/achatrr:12
     restart: unless-stopped
     ports:
       - 8087:8087
   front:
-    image: aymena26/frontapp:2  # Replace with the actual image for your front-end
+    image: aymena26/frontapp:2 
     restart: unless-stopped
     ports:
       - 80:80

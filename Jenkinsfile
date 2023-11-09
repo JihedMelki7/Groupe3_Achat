@@ -54,8 +54,8 @@ pipeline {
     }
         stage('PUSH IMAGE'){
       steps{
-        sh " docker tag achat:3-0 youssefhadiji956/achat:3-0"
-        sh " docker push youssefhadiji956/achat:3-0"
+        sh " docker tag achat:4-0 youssefhadiji956/achat:4-0"
+        sh " docker push youssefhadiji956/achat:4-0"
       }
     }
 

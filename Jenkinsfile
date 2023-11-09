@@ -44,7 +44,7 @@ pipeline {
     }
     stage('BUILD IMAGE'){
       steps{
-        sh 'docker build -t achat:2-0 . '
+        sh 'docker build -t achat:3-0 . '
       }
     }
         stage('Login') {
@@ -54,8 +54,8 @@ pipeline {
     }
         stage('PUSH IMAGE'){
       steps{
-        sh " docker tag achat:2-0 youssefhadiji956/achat:2-0"
-        sh " docker push youssefhadiji956/achat:2-0"
+        sh " docker tag achat:3-0 youssefhadiji956/achat:3-0"
+        sh " docker push youssefhadiji956/achat:3-0"
       }
     }
 

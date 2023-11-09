@@ -19,7 +19,7 @@ services:
       - my_network
   backend:
     depends_on: [mysql]
-    image: nourchenebouarada/springimage:latest
+    image:  nourchenebouarada/springimage1:latest
     restart: unless-stopped
     ports:
       - "8089:8089"  # Port du backend

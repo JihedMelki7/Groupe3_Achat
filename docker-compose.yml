@@ -11,7 +11,7 @@ services:
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
   backend:
-    image: aymena26/backend:2
+    image: aymena26/achatrr:12
     restart: unless-stopped
     ports:
       - 8087:8087

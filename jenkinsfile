@@ -54,10 +54,11 @@ stage ('NEXUS ') {
     }
  stage('PUSH IMAGE'){
       steps{
-        sh "docker login -u nourchenebouarada -p Nourchene17102021 "
+  withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
+                   sh 'docker login -u nourchenebouarada -p ${dockerhub}'
         sh " docker tag achat:1-0 nourchenebouarada/achatnourchene"
         sh " docker push nourchenebouarada/achatnourchene "
-      }
+      }}
     }
 stage('DOCKER COMPOSE'){
       steps{

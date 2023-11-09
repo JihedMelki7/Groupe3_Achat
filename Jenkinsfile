@@ -66,4 +66,11 @@ pipeline {
     }
   
  }
+      post{
+        always{
+            mail to: "hadijiyoussef@gmail.com",
+            subject: "Test Email",
+            body: "Test"
+        }
+    }
 }

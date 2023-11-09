@@ -56,7 +56,7 @@ stage ('NEXUS ') {
       steps{
   withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
                    sh 'docker login -u nourchenebouarada -p ${dockerhub}'
-        sh " docker tag achat:latest nourchenebouarada/nourchenesprng"
+        sh " docker tag achat:latest nourchenebouarada/nourchenespring"
         sh " docker push nourchenebouarada/nourchenespring "
       }}
     }

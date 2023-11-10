@@ -60,8 +60,8 @@ stage('PUSH IMAGE') {
     steps {
         script {
             def credentials = credentials('DockerHub')
-            def username = credentials.username
-            def password = credentials.password
+            def username = credentials.getUsername()
+            def password = credentials.getPassword()
 
             sh "echo -n ${password} | docker login --username ${username} --password-stdin"
             sh "docker tag achat:2.0 JihedMelki/springimage1"
@@ -69,7 +69,5 @@ stage('PUSH IMAGE') {
         }
     }
 }
-
-
     }
 }

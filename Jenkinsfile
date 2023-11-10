@@ -65,5 +65,10 @@ stage('PUSH IMAGE') {
         }
     }
 }
+stage('DOCKER COMPOSE'){
+    steps{
+        sh 'docker compose up -d '
+      }
+    }
     }
 }

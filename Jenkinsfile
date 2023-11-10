@@ -59,13 +59,13 @@ pipeline {
 stage('PUSH IMAGE') {
     steps {
         script {
-            withCredentials([usernamePassword(credentialsId: 'DockerHub', passwordVariable: 'dockerhub', usernameVariable: 'user')]) {
-                sh "echo -n \${dockerhub} | docker login --username \${user} --password-stdin"
-                sh "docker tag achat:2.0 JihedMelki/springimage1"
-                sh "docker push JihedMelki/springimage1"
-            }
+            def credentials = credentials('DockerHub')
+            sh "echo -n ${credentials.getPassword()} | docker login --username ${credentials.getUsername()} --password-stdin"
+            sh "docker tag achat:2.0 JihedMelki/springimage1"
+            sh "docker push JihedMelki/springimage1"
         }
     }
 }
+
     }
 }

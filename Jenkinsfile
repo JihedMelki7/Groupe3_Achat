@@ -72,7 +72,7 @@ stage('DOCKER COMPOSE'){
     }
         stage('PROMETHEUS GRAFANA'){
     steps{
-        echo "done !"
+        echo 'done !'
       }
     }
     }

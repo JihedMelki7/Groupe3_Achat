@@ -59,7 +59,7 @@ pipeline {
 stage('PUSH IMAGE') {
     steps {
         withCredentials([string(credentialsId: 'Dockerhub', variable: 'Dockerhub')]) {
-            sh "echo ${Dockerhub} | docker login -u JihedMelki --password-stdin"
+            sh "echo ${Dockerhub} | docker login -u jihedmelki -p ${Dockerhub}"
             sh "docker tag achat:2.0 jihedmelki/springimage1"
             sh "docker push jihedmelki/springimage1"
         }

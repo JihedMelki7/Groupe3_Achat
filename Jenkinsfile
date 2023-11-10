@@ -60,17 +60,12 @@ stage('PUSH IMAGE') {
     steps {
         script {
             withCredentials([usernamePassword(credentialsId: 'DockerHub', passwordVariable: 'dockerhub', usernameVariable: 'user')]) {
-                sh """
-                    echo \${dockerhub} | docker login -u \${user} --password-stdin
-                    docker tag achat:2.0 JihedMelki/springimage1
-                    docker push JihedMelki/springimage1
-                """
+                sh "echo \${dockerhub} | docker login -u \${user} --password-stdin"
+                sh "docker tag achat:2.0 JihedMelki/springimage1"
+                sh "docker push JihedMelki/springimage1"
             }
         }
     }
 }
-
-
-
     }
 }

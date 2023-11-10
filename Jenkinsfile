@@ -59,7 +59,7 @@ pipeline {
       }
     }
 
-        stage('STAR APP'){
+        stage('START APP'){
       steps{
         sh 'docker compose up -d '
       }

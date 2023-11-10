@@ -6,17 +6,35 @@ environment {
   DOCKER_TAG = getVersion()
 }
 stages{
+    stage('clean workspace')
+        {
+            steps{
+                cleanWs()
+                 }
+        } 
     stage('pulling the code'){
         steps{
             git branch: 'Reglement-malek',
             credentialsId: 'git-cred',
             url: 'https://github.com/JihedMelki7/Groupe3_Achat.git'
 }}
-    stage('build'){
+ stage('OWASP FS SCAN') {
+            steps {
+                dependencyCheck additionalArguments: '--scan ./ --disableYarnAudit --disableNodeAudit', odcInstallation: 'DP-Check'
+                dependencyCheckPublisher pattern: '**/dependency-check-report.xml'
+            }
+        }
+ 
+stage('TRIVY FS SCAN') {
+            steps{
+                sh "trivy fs . > trivyfs.txt"
+                 }
+        } 
+stage('build'){
         steps{ 
             sh 'mvn clean package'
 }}
- stage('test'){
+stage('test'){
         steps{ 
             sh 'mvn test'
 }} 
@@ -25,29 +43,16 @@ stage('SonarQube Analysis') {
               // echo 'sonarqube'
                 sh 'mvn sonar:sonar -Dsonar.login=ffdf83093412b00e3ee51f3f8f52c33886353bef'
             }
-        }
+        } 
+
    stage('dep nexus'){
         steps{ 
             sh 'mvn deploy -DskipTests'
 }} 
-/*stage('Publish to Nexus') {
-            steps {
-               nexusArtifactUploader artifacts: [[artifactId: 'malek',
-               classifier: '',
-               file: './target/JavaTest-0.0.1-SNAPSHOT.war',
-               type: '']],
-               credentialsId: 'nex-cred',
-               groupId: 'test',
-               nexusUrl: '192.168.222.131:8081',
-               nexusVersion: 'nexus3',
-               protocol: 'http',
-               repository: 'test',
-               version: '${BUILD_ID}'
-          }}
-*/
+
  stage('docker'){
         steps{ 
-                sh 'docker build . -t malekkkk/achat:1.0'   
+                sh 'docker build . -t malekkkk/achatbdev:1.0'   
     
         }}
  stage('docker login'){
@@ -58,15 +63,33 @@ stage('SonarQube Analysis') {
    
 stage ('docker push'){
         steps{
-            sh 'docker push malekkkk/achat:1.0'
+            sh 'docker push malekkkk/achatbdev:1.0'
         }
     }
-stage('docker compose '){
-       steps{
-            sh 'docker compose up -d '
-      }
-    } 
+ stage("TRIVY IMAGE Scan"){
+            steps{
+                sh "trivy image malekkkk/achatbdev:1.0 > trivyimage.txt" 
+                 }
+        } 
+stage ('Deployment dev'){
+    steps{
+        sh 'docker compose up -d'
+    }
 }
+}
+post {
+     always {
+        script {
+      //  def owaspFsScanReportPath = "**/dependency-check-report.xml"
+        emailext attachLog: true,
+            subject: "'${currentBuild.result}'",
+            body: "Project: ${env.JOB_NAME}<br/>" +
+                "Build Number: ${env.BUILD_NUMBER}<br/>" +
+                "URL: ${env.BUILD_URL}<br/>",
+            to: 'devopsteam1009@gmail.com',
+            attachmentsPattern: 'trivyfs.txt,trivyimage.txt' //${owaspFsScanReportPath}
+        }}
+    }
 }
 def getVersion()
 {

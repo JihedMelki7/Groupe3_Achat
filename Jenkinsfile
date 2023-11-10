@@ -70,6 +70,11 @@ stage('DOCKER COMPOSE'){
         sh 'docker compose up -d '
       }
     }
+        stage('PROMETHEUS GRAFANA'){
+    steps{
+        echo "done !"
+      }
+    }
     }
     post {
             always{

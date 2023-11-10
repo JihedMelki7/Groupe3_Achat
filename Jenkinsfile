@@ -56,17 +56,20 @@ pipeline {
         sh 'docker build -t achat:2.0 . '
       }
     }
- stage('PUSH IMAGE') {
+stage('PUSH IMAGE') {
     steps {
         script {
             withCredentials([usernamePassword(credentialsId: 'DockerHub', passwordVariable: 'dockerhub', usernameVariable: 'user')]) {
-                sh "docker login -u ${user} -p ${dockerhub}"
-                sh "docker tag achat:2.0 JihedMelki/springimage1"
-                sh "docker push JihedMelki/springimage1"
+                sh """
+                    echo \${dockerhub} | docker login -u \${user} --password-stdin
+                    docker tag achat:2.0 JihedMelki/springimage1
+                    docker push JihedMelki/springimage1
+                """
             }
         }
     }
 }
+
 
 
     }

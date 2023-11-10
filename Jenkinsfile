@@ -56,18 +56,13 @@ pipeline {
         sh 'docker build -t achat:2.0 . '
       }
     }
-stage('PUSH IMAGE') {
-    steps {
-        script {
-            def credentials = credentials('DockerHub')
-            def username = credentials.getUsername()
-            def password = credentials.getPassword()
-
-            sh "echo -n ${password} | docker login --username ${username} --password-stdin"
-            sh "docker tag achat:2.0 JihedMelki/springimage1"
-            sh "docker push JihedMelki/springimage1"
-        }
+stage('PUSH IMAGE'){
+      steps{
+  withCredentials([string(credentialsId: 'Dockerhub', variable: 'Dockerhub')]) {
+                   sh 'docker login -u JihedMelki -p ${Dockerhub}'
+        sh " docker tag achat:2.0 jihedmelki/springimage1"
+        sh " docker push jihedmelki/springimage1 "
+      }}
     }
-}
     }
 }

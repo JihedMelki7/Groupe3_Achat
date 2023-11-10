@@ -53,15 +53,15 @@ pipeline {
         
         stage('BUILD IMAGE'){
       steps{
-        sh 'docker build -t achat:3.0 . '
+        sh 'docker build -t achat:1.0 . '
       }
     }
 stage('PUSH IMAGE') {
     steps {
         withCredentials([string(credentialsId: 'Dockerhub', variable: 'Dockerhub')]) {
             sh "echo ${Dockerhub} | docker login -u jihedmelki -p ${Dockerhub}"
-            sh "docker tag achat:3.0 jihedmelki/springimag1"
-            sh "docker push jihedmelki/springimag1"
+            sh "docker tag achat:1.0 jihedmelki/springimagee1"
+            sh "docker push jihedmelki/springimagee1"
         }
     }
 }

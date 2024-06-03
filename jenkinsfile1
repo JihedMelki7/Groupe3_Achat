@@ -1,14 +1,15 @@
- pipeline {
+pipeline {
     agent any
-    tools {    
-          maven 'apache-maven-3.9.7      }
+    tools {
+        maven 'apache-maven-3.9.7' // Ensure the string is properly closed
+    }
 
     stages {
         stage('Checkout Git') {
             steps {
                 echo 'Pulling...'
                 git branch: 'facture-achref',
-                url : 'https://github.com/JihedMelki7/Groupe3_Achat.git'
+                    url: 'https://github.com/JihedMelki7/Groupe3_Achat.git' // Ensure proper use of colons
             }
         }
 
@@ -38,7 +39,7 @@
             }
         }
 
-        stage ('MVN TEST') {
+        stage('MVN TEST') {
             steps {
                 sh 'mvn test'
             }
@@ -52,29 +53,30 @@
                 }
             }
         }
-   stage('BUILD IMAGE'){
-      steps{
-        sh 'docker build -t achat:1-0 . '
-      }
-    }
-stage('Push vers Docker Hub') {
-    steps {
-        script {
-           
-            def dockerHubImageName = "achrefdoce/chat:latest"  
-          withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
-                   sh 'docker login -u achrefdoce -p ${dockerhub}'
-        sh " docker tag achat:1-0 $dockerHubImageName"
 
-            sh "docker push $dockerHubImageName"
-        }}}}
-stage('DOCKER COMPOSE'){
-      steps{
-        sh 'docker compose up -d '
-      }
-    }
+        stage('BUILD IMAGE') {
+            steps {
+                sh 'docker build -t achat:1-0 .'
+            }
+        }
+
+        stage('Push vers Docker Hub') {
+            steps {
+                script {
+                    def dockerHubImageName = "achrefdoce/chat:latest"
+                    withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
+                        sh 'docker login -u achrefdoce -p ${dockerhub}'
+                        sh "docker tag achat:1-0 $dockerHubImageName"
+                        sh "docker push $dockerHubImageName"
+                    }
+                }
+            }
+        }
+
+        stage('DOCKER COMPOSE') {
+            steps {
+                sh 'docker compose up -d'
+            }
+        }
     }
 }
-
-
-

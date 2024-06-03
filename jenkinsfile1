@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        maven '3.9.7' // Ensure the string is properly closed
+        maven "3.9.7" // Ensure the string is properly closed
     }
 
     stages {

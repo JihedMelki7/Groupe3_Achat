@@ -2,6 +2,8 @@ pipeline {
     agent any
     tools {
         maven "Maven" // Ensure the string is properly closed
+        docker "docker" // Ensure Docker is available
+
     }
 
     stages {

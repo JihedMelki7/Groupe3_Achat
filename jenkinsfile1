@@ -1,5 +1,18 @@
 pipeline {
-    agent any
+   agent {
+    openshift {
+      yaml '''
+        apiVersion: v1
+        kind: Pod
+        spec:
+          containers:
+          - name: docker
+            image: docker:latest
+            command:
+            - cat
+            tty: true
+    }
+  }
     tools {
         maven "Maven" // Ensure the string is properly closed
 
@@ -57,10 +70,11 @@ pipeline {
 
         stage('BUILD IMAGE') {
             steps {
+             container('docker') {       
                 sh 'docker build -t achat:1-0 .'
             }
         }
-
+       }
         stage('Push vers Docker Hub') {
             steps {
                 script {

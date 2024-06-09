@@ -18,8 +18,8 @@
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-	        <sonar.host.url>http://10.129.1.128:9000</sonar.host.url>
-       		<sonar.login>e37bd55ece6be7223d44896a6de4f35287b700ef</sonar.login>
+	        <sonar.host.url>http://10.129.1.137:9000</sonar.host.url>
+       		<sonar.login>3f087dc1266666ef31231bc39e84bd99d8717c34</sonar.login>
 
 	</properties>
 
@@ -161,7 +161,7 @@
 			<repository>
 				<id>deploymentRepo</id>
 				<name>Nexus Repository</name>
-				<url>http://10.129.1.128:8081/repository/deploymentRepo/</url>
+				<url>http://10.129.1.137:8081/repository/deploymentRepo/</url>
 			</repository>
 		</distributionManagement>
 			

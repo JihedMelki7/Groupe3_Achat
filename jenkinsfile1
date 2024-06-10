@@ -11,6 +11,8 @@ spec:
     command:
     - cat
     tty: true
+  nodeSelector:
+    kubernetes.io/hostname: compute.3s.com
 """
         }
     }

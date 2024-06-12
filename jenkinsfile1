@@ -15,8 +15,8 @@ spec:
       ports:
         - containerPort: 8080
     - name: jnlp
-      image: jenkins/inbound-agent:3028.va_a_436db_35078-2-jdk8
-      ports:
+      image:jenkins/inbound-agent:4.13.3-1-alpine-jdk11
+      ports: 
         - containerPort: 50000
   nodeSelector:
     kubernetes.io/hostname: compute.3s.com

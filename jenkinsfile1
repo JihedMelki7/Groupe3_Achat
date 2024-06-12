@@ -4,15 +4,19 @@ pipeline {
             yaml """
 apiVersion: v1
 kind: Pod
+metadata:
+  name: my-pod
 spec:
   containers:
-  - name: docker
-    image: docker:1.5
-    command:
-    - cat
-    tty: true
+    - name: docker
+      image: docker:1.5
+      command: ["cat"]
+      tty: true
+    - name: jnlp
+      image: jenkins/inbound-agent:4.3-3
   nodeSelector:
     kubernetes.io/hostname: compute.3s.com
+
 """
         }
     }

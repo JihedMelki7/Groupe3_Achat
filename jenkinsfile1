@@ -23,9 +23,11 @@ spec:
 """
         }
     }
-    tools {
-        maven "Maven"
+        tools {
+    maven "Maven"
+    docker "docker"
     }
+
     stages {
         stage('Checkout Git') {
             steps {

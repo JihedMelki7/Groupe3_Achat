@@ -9,7 +9,7 @@ metadata:
 spec:
   containers:
     - name: docker
-      image: docker:1.5
+      image:  docker:17.04.0
       command: ["cat"]
       tty: true
       ports:

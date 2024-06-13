@@ -9,25 +9,24 @@ metadata:
 spec:
   containers:
     - name: docker
-      image:  docker:17.04.0
+      image: docker:17.04.0
       command: ["cat"]
       tty: true
       ports:
         - containerPort: 8080
       volumeMounts:
-             - mountPath: /var/run/docker.sock
-               name: hostpath-pv
-          volumes:
-          - name: hostpath-pv
-            hostPath:
-              path: /var/run/docker.sock   
+        - mountPath: /var/run/docker.sock
+          name: docker-sock
     - name: jnlp
       image: jenkins/inbound-agent:4.13.3-1-alpine-jdk11
       ports: 
         - containerPort: 50000
+  volumes:
+    - name: docker-sock
+      hostPath:
+        path: /var/run/docker.sock
   nodeSelector:
     kubernetes.io/hostname: compute.3s.com
-
 """
         }
     }

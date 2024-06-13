@@ -9,7 +9,7 @@ metadata:
 spec:
   containers:
     - name: docker
-      image: docker:17.04.0
+      image: openshift/origin-docker-builder
       command: ["cat"]
       tty: true
       ports:

@@ -16,13 +16,13 @@ spec:
         - containerPort: 8080
       volumeMounts:
         - mountPath: /var/run/docker.sock
-          name: docker-sock
+          name: hostpath-pvc
     - name: jnlp
       image: jenkins/inbound-agent:4.13.3-1-alpine-jdk11
       ports: 
         - containerPort: 50000
   volumes:
-    - name: docker-sock
+    - name: hostpath-pvc
       hostPath:
         path: /var/run/docker.sock
   nodeSelector:

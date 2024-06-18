@@ -1,30 +1,6 @@
 pipeline {
     agent {
-           kubernetes {
-            label 'docker-agent'
-            defaultContainer 'jnlp'
-            yaml """
-apiVersion: v1
-kind: Pod
-metadata:
-  labels:
-    app: docker
-spec:
-  containers:
-    - name: docker
-      image: openshift/origin-docker-builder
-      command: ["cat"]
-      tty: true
-      ports:
-        - containerPort: 8080
-    - name: jnlp
-      image: jenkins/inbound-agent:4.13.3-1-alpine-jdk11
-      ports: 
-        - containerPort: 50000
-  nodeSelector:
-    kubernetes.io/hostname: compute.3s.com
-"""
-        }
+            label 'kubegent'
     }
         tools {
     maven "Maven"

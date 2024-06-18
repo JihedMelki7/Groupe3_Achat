@@ -1,6 +1,6 @@
 pipeline {
     agent {
-            label 'jnpl'
+            label 'kubeagent'
     }
         tools {
     maven "Maven"

@@ -18,8 +18,8 @@
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-	        <sonar.host.url>http://10.129.0.99:9000</sonar.host.url>
-       		<sonar.login>1bd3cdb7b50e969c1345afae4675dd183a0607b1</sonar.login>
+	        <sonar.host.url>http://10.129.0.110:9000</sonar.host.url>
+       		<sonar.login>385f924e5d7a5b1250499128add98e16718d09a7</sonar.login>
 
 	</properties>
 

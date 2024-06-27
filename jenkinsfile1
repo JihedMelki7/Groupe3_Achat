@@ -3,7 +3,7 @@ pipeline {
             label 'kubeagent'
            
         }
-    }
+    
         tools {
     maven "Maven"
     dockerTool "docker"   

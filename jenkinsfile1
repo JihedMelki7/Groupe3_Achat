@@ -7,7 +7,7 @@ kind: Pod
 spec:
   initContainers:
     - name: init-permissions
-      image: busybox
+      image: busybox:1.29.3
       command: ["sh", "-c", "chmod 666 /var/run/docker.sock"]
       securityContext:
         runAsUser: 0

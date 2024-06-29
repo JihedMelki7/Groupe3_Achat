@@ -1,7 +1,7 @@
 pipeline {
     agent {
-            kubernetes {
-      yaml '''
+        kubernetes {
+            yaml '''
 apiVersion: v1
 kind: Pod
 spec:
@@ -13,33 +13,29 @@ spec:
         - "9999999"
       tty: true
       workingDir: /home/jenkins/agent
-     - name: docker
-       image: docker:19.03
-       command:
-        - cat
-       tty: true
-       privileged: true
-       volumeMounts:
+    - name: docker
+      image: docker:19.03
+      command: ["sh", "-c", "chmod 666 /var/run/docker.sock && sleep 9999999"]
+      tty: true
+      privileged: true
+      securityContext:
+        runAsUser: 0
+      volumeMounts:
         - mountPath: /var/run/docker.sock
           name: docker-sock
-       securityContext:
-          runAsUser: 0
   volumes:
     - name: docker-sock
       hostPath:
         path: /var/run/docker.sock
   nodeSelector:
     kubernetes.io/hostname: compute.3s.com
-        '''
-    }
-           
+            '''
         }
-    
-        tools {
-    maven "Maven"
-    dockerTool "docker"   
-   }
-
+    }
+    tools {
+        maven "Maven"
+        dockerTool "docker"   
+    }
     stages {
         stage('Checkout Git') {
             steps {

@@ -13,15 +13,17 @@ spec:
         - "9999999"
       tty: true
       workingDir: /home/jenkins/agent
-    - name: docker
-      image: docker:19.03
-      command:
+     - name: docker
+       image: docker:19.03
+       command:
         - cat
-      tty: true
-      privileged: true
-      volumeMounts:
+       tty: true
+       privileged: true
+       volumeMounts:
         - mountPath: /var/run/docker.sock
           name: docker-sock
+       securityContext:
+          runAsUser: 0
   volumes:
     - name: docker-sock
       hostPath:

@@ -7,7 +7,7 @@ kind: Pod
 spec:
   initContainers:
     - name: init-permissions
-      image: busybox:1.29.3
+      image: busybox
       command: ["sh", "-c", "chmod 666 /var/run/docker.sock"]
       securityContext:
         runAsUser: 0
@@ -17,9 +17,7 @@ spec:
   containers:
     - name: jnlp
       image: quay.io/openshift/origin-jenkins-agent-maven
-      command:
-        - "sleep"
-        - "9999999"
+      command: ["sleep", "9999999"]
       tty: true
       workingDir: /home/jenkins/agent
     - name: docker
@@ -56,7 +54,6 @@ spec:
         stage('Clean') {
             steps {
                 script {
-                    // Clean the project
                     sh 'mvn clean'
                 }
             }
@@ -64,7 +61,6 @@ spec:
         stage('Compile') {
             steps {
                 script {
-                    // Compile the project
                     sh 'mvn compile'
                 }
             }
@@ -84,7 +80,6 @@ spec:
         stage('Nexus') {
             steps {
                 script {
-                    // Execute the "mvn deploy" command while skipping tests
                     sh 'mvn deploy -DskipTests'
                 }
             }

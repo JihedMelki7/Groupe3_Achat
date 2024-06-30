@@ -4,6 +4,9 @@ pipeline {
             yaml '''
 apiVersion: v1
 kind: Pod
+metadata:
+  name: agent
+  namespace: 3spfe
 spec:
   containers:
     - name: jnlp
@@ -23,8 +26,8 @@ spec:
           name: docker-sock
   volumes:
     - name: docker-sock
-      hostPath:
-        path: /var/run/docker.sock
+      persistentVolumeClaim:
+        claimName: hostpath-pvc  
   nodeSelector:
     kubernetes.io/hostname: compute.3s.com
             '''

@@ -88,6 +88,7 @@ spec:
         }
         stage('Push vers Docker Hub') {
             steps {
+              container('docker') {
                 script {
                     def dockerHubImageName = "achrefdoce/chat:latest"
                     withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
@@ -99,4 +100,5 @@ spec:
             }
         }
     }
+}
 }

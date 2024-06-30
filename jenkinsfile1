@@ -18,16 +18,17 @@ spec:
       image: docker:19.03
       command: ["sh", "-c", "sleep 9999999"]
       tty: true
-      privileged: true
       securityContext:
+        privileged: true
         runAsUser: 0
       volumeMounts:
         - mountPath: /var/run/docker.sock
-          name: docker-sock
+          name: docker-socket-volume
   volumes:
-    - name: docker-sock
-      persistentVolumeClaim:
-        claimName: hostpath-pvc  
+    - name: docker-socket-volume
+      hostPath:
+        path: /var/run/docker.sock
+        type: File
   nodeSelector:
     kubernetes.io/hostname: compute.3s.com
             '''

@@ -12,6 +12,8 @@ spec:
       labels:
         app: springboot-mysql
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: master.3s.com
       containers:
       - name: springboot-container
         image: <votre-image-springboot>

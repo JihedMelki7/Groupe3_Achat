@@ -111,7 +111,7 @@ spec:
          stage('Deploy to OpenShift') {
             steps {
                 script {
-                   sh 'oc apply -f deployment_back.yaml'
+                   sh 'oc apply -f deployment_back.yml'
 
                         }
                     }

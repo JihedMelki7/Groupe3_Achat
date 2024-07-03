@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springboot-mysql-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: springboot-mysql
+  template:
+    metadata:
+      labels:
+        app: springboot-mysql
+    spec:
+      containers:
+      - name: springboot-container
+        image: <votre-image-springboot>
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:mysql://mysql:3306/achatdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+        - name: SPRING_DATASOURCE_USERNAME
+          value: root
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: root
+      - name: mysql-container
+        image: mysql:5.7
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: root
+        - name: MYSQL_DATABASE
+          value: achatdb
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: springboot-loadbalancer-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: springboot-mysql

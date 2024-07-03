@@ -16,7 +16,7 @@ spec:
         kubernetes.io/hostname: master.3s.com
       containers:
       - name: springboot-container
-        image: <votre-image-springboot>
+        image: achrefdoce/chat:latest
         ports:
         - containerPort: 8080
         env:

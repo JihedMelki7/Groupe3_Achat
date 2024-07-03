@@ -100,6 +100,14 @@ spec:
             }
         }
     }
+ stage('Download Deployment File') {
+            steps {
+                script {
+                    // Télécharge le fichier YAML à partir de GitHub
+                    sh 'curl -o deployment_back.yml https://raw.githubusercontent.com/JihedMelki7/Groupe3_Achat/facture-achref/deployment_back.yml'
+                }
+            }
+        }
          stage('Deploy to OpenShift') {
             steps {
                 script {

@@ -103,10 +103,8 @@ spec:
          stage('Deploy to OpenShift') {
             steps {
                 script {
-                    openshift.withCluster() {
-                        openshift.withProject('3spfe') {
-                            def yml = readFile(file: 'deployment_back.yaml')
-                            openshift.apply(yml)
+                   sh 'oc apply -f deployment_back.yaml'
+
                         }
                     }
                 }

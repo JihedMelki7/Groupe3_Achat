@@ -13,7 +13,7 @@ spec:
         app: springboot-mysql
     spec:
       nodeSelector:
-        kubernetes.io/hostname: compute.3s.com
+         kubernetes.io/hostname: compute.3s.com    
       containers:
       - name: springboot-container
         image: achrefdoce/chat:latest

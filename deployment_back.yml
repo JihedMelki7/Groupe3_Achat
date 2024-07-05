@@ -14,13 +14,6 @@ spec:
     spec:
       nodeSelector:
         kubernetes.io/hostname: compute.3s.com    
-      initContainers:
-      - name: init-mysql-permissions
-        image: busybox:1.23
-        command: ["sh", "-c", "chown -R mysql:mysql /var/lib/mysql"]
-        volumeMounts:
-        - name: mysql-persistent-storage
-          mountPath: /var/lib/mysql
       containers:
       - name: springboot-container
         image: achrefdoce/chat:latest
@@ -45,6 +38,9 @@ spec:
         volumeMounts:
         - name: mysql-persistent-storage
           mountPath: /var/lib/mysql
+        securityContext:
+          runAsUser: 0
+          runAsGroup: 0
       volumes:
       - name: mysql-persistent-storage
         hostPath:

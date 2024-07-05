@@ -13,12 +13,10 @@ spec:
         app: springboot-mysql
     spec:
       nodeSelector:
-         kubernetes.io/hostname: compute.3s.com    
+        kubernetes.io/hostname: compute.3s.com    
       initContainers:
       - name: init-mysql-permissions
         image: busybox:1.23
-
-
         command: ["sh", "-c", "chown -R mysql:mysql /var/lib/mysql"]
         volumeMounts:
         - name: mysql-persistent-storage
@@ -49,8 +47,8 @@ spec:
           mountPath: /var/lib/mysql
       volumes:
       - name: mysql-persistent-storage
-        persistentVolumeClaim:
-          claimName: mysql-pvc
+        hostPath:
+          path: /home/origin/mysql
 ---
 apiVersion: v1
 kind: Service

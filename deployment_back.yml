@@ -16,7 +16,9 @@ spec:
          kubernetes.io/hostname: compute.3s.com    
       initContainers:
       - name: init-mysql-permissions
-        image: busybox
+        image: busybox:1.23
+
+
         command: ["sh", "-c", "chown -R mysql:mysql /var/lib/mysql"]
         volumeMounts:
         - name: mysql-persistent-storage

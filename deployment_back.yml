@@ -63,3 +63,20 @@ spec:
     targetPort: 8080
   selector:
     app: springboot-mysql
+---   
+apiVersion: v1
+kind: Service
+metadata:
+  name: internal-service
+spec:
+  type: ClusterIP
+  selector:
+    app: mypod   # Le label commun pour sélectionner votre pod
+  ports:
+    - name: mysql
+      port: 3306
+      targetPort: mysql
+    - name: springboot
+      port: 8080
+      targetPort: springboot
+

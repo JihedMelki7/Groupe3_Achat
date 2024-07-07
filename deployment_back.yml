@@ -27,7 +27,7 @@ spec:
         - name: SPRING_DATASOURCE_PASSWORD
           value: root
       - name: mysql
-        image: docker-registry.default.svc:5000/openshift/mysql@sha256:e08ee4d43b7356607685b69bde6335e27cf20c020f345b6c6c59400183882764
+        image: mysql:5.6
         ports:
         - containerPort: 3306
         env:

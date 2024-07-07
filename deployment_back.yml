@@ -71,7 +71,7 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    app: mypod   # Le label commun pour sélectionner votre pod
+    app: springboot-mysql-deployment # Le label commun pour sélectionner votre pod
   ports:
     - name: mysql
       port: 3306

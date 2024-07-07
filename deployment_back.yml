@@ -26,8 +26,8 @@ spec:
           value: root
         - name: SPRING_DATASOURCE_PASSWORD
           value: root
-      - name: mysql-container
-        image: mysql:5.5.42
+      - name: mysql
+        image: openshift/mysql:5.7 
         ports:
         - containerPort: 3306
         env:
@@ -35,16 +35,9 @@ spec:
           value: root
         - name: MYSQL_DATABASE
           value: achatdb
-        volumeMounts:
-        - name: mysql-persistent-storage
-          mountPath: /var/lib/mysql
         securityContext:
           runAsUser: 0
           runAsGroup: 0
-      volumes:
-      - name: mysql-persistent-storage
-        hostPath:
-          path: /home/origin/mysql
 ---
 apiVersion: v1
 kind: Service

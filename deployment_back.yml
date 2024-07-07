@@ -43,11 +43,13 @@ spec:
           value: root
         - name: SPRING_DATASOURCE_PASSWORD
           value: root
+        - name: SPRING_DATASOURCE_INITIALIZATION_MODE
+          value: always
         readinessProbe:
           httpGet:
             path: /actuator/health
             port: 8080
-          initialDelaySeconds: 30
+          initialDelaySeconds: 60
           periodSeconds: 10
 ---
 apiVersion: v1

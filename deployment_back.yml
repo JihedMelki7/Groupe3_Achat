@@ -27,7 +27,7 @@ spec:
         - name: SPRING_DATASOURCE_PASSWORD
           value: root
       - name: mysql
-        image: openshift/mysql:5.7 
+        image: centos/mysql-57-centos7 
         ports:
         - containerPort: 3306
         env:

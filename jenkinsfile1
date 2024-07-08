@@ -1,38 +1,6 @@
 pipeline {
     agent {
-        kubernetes {
-            yaml '''
-apiVersion: v1
-kind: Pod
-metadata:
-  name: agent
-  namespace: 3spfe
-spec:
-  containers:
-    - name: jnlp
-      image: quay.io/openshift/origin-jenkins-agent-maven
-      command: ["sleep", "9999999"]
-      tty: true
-      workingDir: /home/jenkins/agent
-    - name: docker
-      image: docker:19.03
-      command: ["sh", "-c", "sleep 9999999"]
-      tty: true
-      securityContext:
-        privileged: true
-        runAsUser: 0
-      volumeMounts:
-        - mountPath: /var/run/docker.sock
-          name: docker-socket-volume
-  volumes:
-    - name: docker-socket-volume
-      hostPath:
-        path: /var/run/docker.sock
-        type: File
-  nodeSelector:
-    kubernetes.io/hostname: compute.3s.com
-            '''
-        }
+        label 'kubeagent'
     }
     tools {
         maven "Maven"
@@ -88,34 +56,32 @@ spec:
         }
         stage('Push vers Docker Hub') {
             steps {
-              container('docker') {
-                script {
-                    def dockerHubImageName = "achrefdoce/chat:latest"
-                    withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
-                        sh 'docker login -u achrefdoce -p ${dockerhub}'
-                        sh "docker tag achat:1-0 $dockerHubImageName"
-                        sh "docker push $dockerHubImageName"
+                container('docker') {
+                    script {
+                        def dockerHubImageName = "achrefdoce/chat:latest"
+                        withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
+                            sh 'docker login -u achrefdoce -p ${dockerhub}'
+                            sh "docker tag achat:1-0 $dockerHubImageName"
+                            sh "docker push $dockerHubImageName"
+                        }
                     }
                 }
             }
         }
-    }
- stage('Download Deployment File') {
+        stage('Download Deployment File') {
             steps {
                 script {
-                    // Télécharge le fichier YAML à partir de GitHub
+                    // Download the YAML file from GitHub
                     sh 'curl -o deployment_back.yml https://raw.githubusercontent.com/JihedMelki7/Groupe3_Achat/facture-achref/deployment_back.yml'
                 }
             }
         }
-         stage('Deploy to OpenShift') {
+        stage('Deploy to OpenShift') {
             steps {
                 script {
-                   sh 'oc apply -f deployment_back.yml'
-
-                        }
-                    }
+                    sh 'oc apply -f deployment_back.yml'
                 }
-            
+            }
         }
+    }
 }

@@ -30,7 +30,7 @@ spec:
       - name: springboot-container
         image: achrefdoce/chat:latest
         ports:
-        - containerPort: 8080
+        - containerPort: 8089
         env:
         - name: SPRING_DATASOURCE_URL
           value: jdbc:mysql://localhost:3306/achatdb?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
@@ -50,7 +50,7 @@ spec:
   type: LoadBalancer
   ports:
   - port: 80
-    targetPort: 8080
+    targetPort: 8089
   selector:
     app: springboot-mysql
 ---   
@@ -67,6 +67,6 @@ spec:
       port: 3306
       targetPort: mysql
     - name: springboot
-      port: 8080
+      port: 8089
       targetPort: springboot
 

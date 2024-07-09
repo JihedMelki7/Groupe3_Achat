@@ -48,8 +48,6 @@ metadata:
   name: springboot-loadbalancer-service
 spec:
   type: LoadBalancer
-  externalIPs:
-    - 102.157.179.235
   ports:
   - port: 80
     targetPort: 8089

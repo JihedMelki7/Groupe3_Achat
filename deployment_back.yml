@@ -44,11 +44,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: springboot-mysql-service
+  name: springboot-service
 spec:
-  type: ClusterIP
-  ports:
-  - port: 8089
-    targetPort: 8089
   selector:
     app: springboot-mysql
+  ports:
+    - protocol: TCP
+      port: 8089
+      targetPort: 8089
+      nodePort: 30089 # Choose a port in the range 30000-32767
+  type: NodePort

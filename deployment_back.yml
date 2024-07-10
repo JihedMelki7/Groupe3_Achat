@@ -13,7 +13,7 @@ spec:
         app: springboot-mysql
     spec:
       nodeSelector:
-        kubernetes.io/hostname: compute.3s.com    
+        kubernetes.io/hostname: compute.3s.com
       containers:
       - name: mysql
         image: mysql:5.6
@@ -40,7 +40,7 @@ spec:
           value: root
         - name: SPRING_DATASOURCE_INITIALIZATION_MODE
           value: always
----   
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -52,5 +52,4 @@ spec:
     - protocol: TCP
       port: 8089
       targetPort: 8089
-      nodePort: 30089 # Choose a port in the range 30000-32767
-  type: NodePort
+  type: ClusterIP

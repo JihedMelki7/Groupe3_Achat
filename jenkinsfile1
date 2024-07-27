@@ -83,5 +83,20 @@ pipeline {
                 }
             }
         }
+     stage('Download Frontend Deployment File') {
+            steps {
+                script {
+                    // Download the YAML file for frontend deployment from GitHub
+                    sh 'curl -o deployment_front.yml https://raw.githubusercontent.com/JihedMelki7/Groupe3_Achat/facture-achref/deployment_front.yml'
+                }
+            }
+        }
+        stage('Deploy Frontend to OpenShift') {
+            steps {
+                script {
+                    sh 'oc apply -f deployment_front.yml'
+                }
+            }
+        }
     }
 }

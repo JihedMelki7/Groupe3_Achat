@@ -52,4 +52,5 @@ spec:
     - protocol: TCP
       port: 8089
       targetPort: 8089
-  type: ClusterIP
+      nodePort: 30000
+  type: NodePort

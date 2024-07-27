@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: frontend-container
-        image: achrefdoce/frontend
+        image: quay.io/acref_bassalah/frontend
         ports:
         - containerPort: 80
 ---

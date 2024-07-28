@@ -16,6 +16,9 @@ spec:
       containers:
       - name: frontend-container
         image: quay.io/acref_bassalah/frontend
+        securityContext:
+          privileged: true
+          runAsUser: 0
         ports:
         - containerPort: 80
 ---

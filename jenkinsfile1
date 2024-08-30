@@ -4,14 +4,39 @@ pipeline {
     }
     tools {
         maven "Maven"
-        dockerTool "docker"   
+        dockerTool "docker"
+    }
+    environment {
+        GIT_URL = 'https://github.com/JihedMelki7/Groupe3_Achat.git'
+        GIT_BRANCH = 'facture-achref'
+        DOCKER_HUB_IMAGE_NAME = "achrefdoce/chat:latest"
+        SONARQUBE_SERVER = 'sonarqueb'
+        DEPLOYMENT_FILE_URL_BACK = 'https://raw.githubusercontent.com/JihedMelki7/Groupe3_Achat/facture-achref/deployment_back.yml'
+        DEPLOYMENT_FILE_URL_FRONT = 'https://raw.githubusercontent.com/JihedMelki7/Groupe3_Achat/facture-achref/deployment_front.yml'
     }
     stages {
+        stage('Start Jenkins Agent') {
+            steps {
+                script {
+                    // Define Jenkins environment variables
+                    def jenkinsUrl = env.JENKINS_URL
+                    def jenkinsAgentName = env.JENKINS_AGENT_NAME
+                    def jenkinsSecret = env.JENKINS_SECRET
+                    def jenkinsWorkDir = env.JENKINS_WORK_DIR ?: '/home/jenkins/agent'
+
+                    // Download the agent.jar file
+                    sh "curl -sO \"${jenkinsUrl}/jnlpJars/agent.jar\""
+
+                    // Start the Jenkins agent with dynamic information and disable certificate check
+                    sh "java -jar agent.jar -jnlpUrl \"${jenkinsUrl}/computer/${jenkinsAgentName}/jenkins-agent.jnlp\" -secret \"${jenkinsSecret}\" -workDir \"${jenkinsWorkDir}\" -noCertificateCheck"
+                }
+            }
+        }
         stage('Checkout Git') {
             steps {
                 echo 'Pulling...'
-                git branch: 'facture-achref',
-                    url: 'https://github.com/JihedMelki7/Groupe3_Achat.git'
+                git branch: "${GIT_BRANCH}",
+                    url: "${GIT_URL}"
             }
         }
         stage('Clean') {
@@ -30,7 +55,7 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonarqueb') {
+                withSonarQubeEnv("${SONARQUBE_SERVER}") {
                     sh "mvn sonar:sonar"
                 }
             }
@@ -54,40 +79,37 @@ pipeline {
                 }
             }
         }
-        stage('Push vers Docker Hub') {
+        stage('Push to Docker Hub') {
             steps {
                 container('docker') {
                     script {
-                        def dockerHubImageName = "achrefdoce/chat:latest"
                         withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
                             sh 'docker login -u achrefdoce -p ${dockerhub}'
-                            sh "docker tag achat:1-0 $dockerHubImageName"
-                            sh "docker push $dockerHubImageName"
+                            sh "docker tag achat:1-0 ${DOCKER_HUB_IMAGE_NAME}"
+                            sh "docker push ${DOCKER_HUB_IMAGE_NAME}"
                         }
                     }
                 }
             }
         }
-        stage('Download Deployment File') {
+        stage('Download Backend Deployment File') {
             steps {
                 script {
-                    // Download the YAML file from GitHub
-                    sh 'curl -o deployment_back.yml https://raw.githubusercontent.com/JihedMelki7/Groupe3_Achat/facture-achref/deployment_back.yml'
+                    sh "curl -o deployment_back.yml ${DEPLOYMENT_FILE_URL_BACK}"
                 }
             }
         }
-        stage('Deploy to OpenShift') {
+        stage('Deploy Backend to OpenShift') {
             steps {
                 script {
                     sh 'oc apply -f deployment_back.yml'
                 }
             }
         }
-     stage('Download Frontend Deployment File') {
+        stage('Download Frontend Deployment File') {
             steps {
                 script {
-                    // Download the YAML file for frontend deployment from GitHub
-                    sh 'curl -o deployment_front.yml https://raw.githubusercontent.com/JihedMelki7/Groupe3_Achat/facture-achref/deployment_front.yml'
+                    sh "curl -o deployment_front.yml ${DEPLOYMENT_FILE_URL_FRONT}"
                 }
             }
         }

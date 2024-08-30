@@ -15,23 +15,7 @@ pipeline {
         DEPLOYMENT_FILE_URL_FRONT = 'https://raw.githubusercontent.com/JihedMelki7/Groupe3_Achat/facture-achref/deployment_front.yml'
     }
     stages {
-        stage('Start Jenkins Agent') {
-            steps {
-                script {
-                    // Define Jenkins environment variables
-                    def jenkinsUrl = env.JENKINS_URL
-                    def jenkinsAgentName = env.JENKINS_AGENT_NAME
-                    def jenkinsSecret = env.JENKINS_SECRET
-                    def jenkinsWorkDir = env.JENKINS_WORK_DIR ?: '/home/jenkins/agent'
 
-                    // Download the agent.jar file
-                    sh "curl -sO \"${jenkinsUrl}/jnlpJars/agent.jar\""
-
-                    // Start the Jenkins agent with dynamic information and disable certificate check
-                    sh "java -jar agent.jar -jnlpUrl \"${jenkinsUrl}/computer/${jenkinsAgentName}/jenkins-agent.jnlp\" -secret \"${jenkinsSecret}\" -workDir \"${jenkinsWorkDir}\" -noCertificateCheck"
-                }
-            }
-        }
         stage('Checkout Git') {
             steps {
                 echo 'Pulling...'

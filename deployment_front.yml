@@ -18,6 +18,8 @@ spec:
         image: quay.io/acref_bassalah/frontend
         ports:
         - containerPort: 80
+        securityContext:
+          runAsUser: 0  # Exécute le conteneur avec l'utilisateur root
 ---
 apiVersion: v1
 kind: Service

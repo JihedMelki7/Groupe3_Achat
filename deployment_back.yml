@@ -25,9 +25,6 @@ spec:
           value: root
         - name: MYSQL_DATABASE
           value: achatdb
-        securityContext:
-          runAsUser: 0
-          runAsGroup: 0
       - name: springboot-container
         image: achrefdoce/chat:latest
         ports:

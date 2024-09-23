@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: springboot-mysql-deployment
-  namespace: deployment
+  namespace: deploy
 spec:
   replicas: 1
   selector:

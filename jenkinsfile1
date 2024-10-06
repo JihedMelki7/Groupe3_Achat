@@ -4,7 +4,6 @@ pipeline {
     }
     tools {
         maven "Maven"
-        dockerTool "docker"
     }
     environment {
         GIT_URL = 'https://github.com/JihedMelki7/Groupe3_Achat.git'

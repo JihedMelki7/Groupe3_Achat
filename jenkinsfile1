@@ -2,9 +2,6 @@ pipeline {
     agent {
         label 'kubeagent'
     }
-    tools {
-        maven "Maven"
-    }
     environment {
         GIT_URL = 'https://github.com/JihedMelki7/Groupe3_Achat.git'
         GIT_BRANCH = 'facture-achref'

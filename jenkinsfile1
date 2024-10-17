@@ -11,6 +11,38 @@ pipeline {
                     url: 'https://github.com/JihedMelki7/Groupe3_Achat.git'
             }
         }
+
+        stage('Read Sonar Token') {
+            steps {
+                script {
+                    // Lire le contenu de sonar_token.txt
+                    def sonarToken = readFile('/home/origin/deploy-ci-cd/sonarqubedeploy/sonar_token.txt').trim()
+                    env.SONAR_TOKEN = sonarToken // Stocker le token dans une variable d'environnement
+                }
+            }
+        }
+
+        stage('Modify pom.xml') {
+            steps {
+                script {
+                    // Lire le pom.xml existant
+                    def pomFile = readFile('pom.xml')
+
+                    // Modifier les valeurs dans pom.xml
+                    def modifiedPom = pomFile
+                        .replaceAll(/<maven.compiler.target>.*?<\/maven.compiler.target>/, '<maven.compiler.target>1.8</maven.compiler.target>')
+                        .replaceAll(/<sonar.host.url>.*?<\/sonar.host.url>/, '<sonar.host.url>http://10.10.10.128:30090</sonar.host.url>')
+                        .replaceAll(/<sonar.login>.*?<\/sonar.login>/, "<sonar.login>${env.SONAR_TOKEN}</sonar.login>")
+
+                    // Écrire le contenu modifié dans pom.xml
+                    writeFile file: 'pom.xml', text: modifiedPom
+
+                    // Optionnel : imprimer le pom.xml modifié pour débogage
+                    echo "${modifiedPom}"
+                }
+            }
+        }
+
         stage('Clean') {
             steps {
                 script {

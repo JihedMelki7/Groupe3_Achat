@@ -15,9 +15,11 @@ pipeline {
         stage('Read Sonar Token') {
             steps {
                 script {
-                    // Lire le contenu de sonar_token.txt
-                    def sonarToken = readFile('/home/origin/deploy-ci-cd/sonarqubedeploy/sonar_token.txt').trim()
-                    env.SONAR_TOKEN = sonarToken // Stocker le token dans une variable d'environnement
+                    // Lire le token depuis les credentials de Jenkins
+                    withCredentials([string(credentialsId: 'sonar', variable: 'SONAR_TOKEN')]) {
+                        // Le token est maintenant disponible dans env.SONAR_TOKEN
+                        echo "Sonar Token retrieved."
+                    }
                 }
             }
         }

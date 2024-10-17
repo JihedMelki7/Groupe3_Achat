@@ -2,21 +2,13 @@ pipeline {
     agent {
         label 'kubeagent'
     }
-    environment {
-        GIT_URL = 'https://github.com/JihedMelki7/Groupe3_Achat.git'
-        GIT_BRANCH = 'facture-achref'
-        DOCKER_HUB_IMAGE_NAME = "achrefdoce/chat:latest"
-        SONARQUBE_SERVER = 'sonarqueb'
-        DEPLOYMENT_FILE_URL_BACK = 'https://raw.githubusercontent.com/JihedMelki7/Groupe3_Achat/facture-achref/deployment_back.yml'
-        DEPLOYMENT_FILE_URL_FRONT = 'https://raw.githubusercontent.com/JihedMelki7/Groupe3_Achat/facture-achref/deployment_front.yml'
-    }
-    stages {
 
+    stages {
         stage('Checkout Git') {
             steps {
                 echo 'Pulling...'
-                git branch: "${GIT_BRANCH}",
-                    url: "${GIT_URL}"
+                git branch: 'facture-achref',
+                    url: 'https://github.com/JihedMelki7/Groupe3_Achat.git'
             }
         }
         stage('Clean') {
@@ -35,7 +27,7 @@ pipeline {
         }
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv("${SONARQUBE_SERVER}") {
+                withSonarQubeEnv('sonarqueb') {
                     sh "mvn sonar:sonar"
                 }
             }
@@ -59,15 +51,31 @@ pipeline {
                 }
             }
         }
-        stage('Push to Docker Hub') {
+        stage('Push vers Docker Hub') {
             steps {
                 container('docker') {
                     script {
+                        def dockerHubImageName = "achrefdoce/chat:latest"
                         withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
                             sh 'docker login -u achrefdoce -p ${dockerhub}'
-                            sh "docker tag achat:1-0 ${DOCKER_HUB_IMAGE_NAME}"
-                            sh "docker push ${DOCKER_HUB_IMAGE_NAME}"
+                            sh "docker tag achat:1-0 $dockerHubImageName"
+                            sh "docker push $dockerHubImageName"
                         }
+                    }
+                }
+            }
+        }
+        // Étape pour créer le namespace si non existant
+        stage('Create Namespace') {
+            steps {
+                script {
+                    def namespace = 'deploy' // Modifiez le nom du namespace si nécessaire
+                    def exists = sh(script: "oc get namespace ${namespace} --no-headers", returnStatus: true) == 0
+                    if (!exists) {
+                        sh "oc create namespace ${namespace}"
+                        echo "Namespace '${namespace}' created."
+                    } else {
+                        echo "Namespace '${namespace}' already exists."
                     }
                 }
             }
@@ -75,28 +83,32 @@ pipeline {
         stage('Download Backend Deployment File') {
             steps {
                 script {
-                    sh "curl -o deployment_back.yml ${DEPLOYMENT_FILE_URL_BACK}"
+                    // Télécharger le fichier YAML du backend
+                    sh 'curl -o deployment_back.yml https://raw.githubusercontent.com/JihedMelki7/Groupe3_Achat/facture-achref/deployment_back.yml'
                 }
             }
         }
         stage('Deploy Backend to OpenShift') {
             steps {
                 script {
-                    sh 'oc apply -f deployment_back.yml'
+                    // Déployer le backend dans le namespace spécifié
+                    sh 'oc apply -f deployment_back.yml -n deploy'
                 }
             }
         }
         stage('Download Frontend Deployment File') {
             steps {
                 script {
-                    sh "curl -o deployment_front.yml ${DEPLOYMENT_FILE_URL_FRONT}"
+                    // Télécharger le fichier YAML du frontend
+                    sh 'curl -o deployment_front.yml https://raw.githubusercontent.com/JihedMelki7/Groupe3_Achat/facture-achref/deployment_front.yml'
                 }
             }
         }
         stage('Deploy Frontend to OpenShift') {
             steps {
                 script {
-                    sh 'oc apply -f deployment_front.yml'
+                    // Déployer le frontend dans le namespace spécifié
+                    sh 'oc apply -f deployment_front.yml -n deploy'
                 }
             }
         }

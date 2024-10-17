@@ -8,8 +8,6 @@ EXPOSE 8089
 WORKDIR /app
 
 # Add an ARG and ENV for the SonarQube login token
-ARG SONAR_LOGIN
-ENV SONAR_LOGIN=${SONAR_LOGIN}
 
 # Install curl
 RUN apt-get update && apt-get install -y curl

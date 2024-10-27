@@ -17,7 +17,6 @@ pipeline {
                 script {
                     // Lire le token depuis les credentials de Jenkins
                     withCredentials([string(credentialsId: 'sonar', variable: 'SONAR_TOKEN')]) {
-                        // Le token est maintenant disponible dans env.SONAR_TOKEN
                         echo "Sonar Token retrieved."
                     }
                 }
@@ -52,6 +51,7 @@ pipeline {
                 }
             }
         }
+
         stage('Compile') {
             steps {
                 script {
@@ -59,6 +59,7 @@ pipeline {
                 }
             }
         }
+
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonarqube') {
@@ -66,11 +67,13 @@ pipeline {
                 }
             }
         }
+
         stage('MVN TEST') {
             steps {
                 sh 'mvn test'
             }
         }
+
         stage('Nexus') {
             steps {
                 script {
@@ -78,6 +81,7 @@ pipeline {
                 }
             }
         }
+
         stage('BUILD IMAGE') {
             steps {
                 container('docker') {
@@ -85,6 +89,28 @@ pipeline {
                 }
             }
         }
+
+        stage('Scan Docker Image') {
+            steps {
+                script {
+                    // Run Trivy to scan the Docker image
+                    def trivyOutput = sh(script: "trivy image achat:1-0", returnStdout: true).trim()
+
+                    // Display Trivy scan results
+                    println trivyOutput
+
+                    // Check if vulnerabilities were found
+                    if (trivyOutput.contains("Total: 0")) {
+                        echo "No vulnerabilities found in the Docker image."
+                    } else {
+                        echo "Vulnerabilities found in the Docker image."
+                        // Optionally fail the build if vulnerabilities are found
+                        // error "Vulnerabilities found in the Docker image."
+                    }
+                }
+            }
+        }
+
         stage('Push vers Docker Hub') {
             steps {
                 container('docker') {
@@ -99,6 +125,7 @@ pipeline {
                 }
             }
         }
+
         // Étape pour créer le namespace si non existant
         stage('Create Namespace') {
             steps {
@@ -114,6 +141,7 @@ pipeline {
                 }
             }
         }
+
         stage('Download Backend Deployment File') {
             steps {
                 script {
@@ -122,6 +150,7 @@ pipeline {
                 }
             }
         }
+
         stage('Deploy Backend to OpenShift') {
             steps {
                 script {
@@ -130,6 +159,7 @@ pipeline {
                 }
             }
         }
+
         stage('Download Frontend Deployment File') {
             steps {
                 script {
@@ -138,6 +168,7 @@ pipeline {
                 }
             }
         }
+
         stage('Deploy Frontend to OpenShift') {
             steps {
                 script {

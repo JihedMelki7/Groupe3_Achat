@@ -89,6 +89,26 @@ pipeline {
             }
         }
 
+        stage('Download Trivy DB') {
+            steps {
+                sshPublisher(
+                    publishers: [
+                        sshPublisherDesc(
+                            configName: 'Master',
+                            transfers: [
+                                sshTransfer(
+                                    execCommand: 'trivy --download-db-only',
+                                    execTimeout: 60000
+                                )
+                            ],
+                            usePromotionTimestamp: false,
+                            verbose: true
+                        )
+                    ]
+                )
+            }
+        }
+
         stage('Scan Docker Image on Host') {
             steps {
                 sshPublisher(

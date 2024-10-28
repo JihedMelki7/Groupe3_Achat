@@ -84,11 +84,10 @@ pipeline {
         stage('Build Image') {
             steps {
                 container('docker') {
-                    sh 'docker build -t achat:1-0 .'
+                    sh 'docker build -t achat:latest .'
                 }
             }
         }
-
 
         stage('Scan Docker Image on Host') {
             steps {
@@ -98,12 +97,15 @@ pipeline {
                             configName: 'Master',
                             transfers: [
                                 sshTransfer(
-                                    execCommand: trivy image --scanners vuln --timeout 10m --format json achrefdoce/chat:latest > trivy_output.json
-'
+                                    execCommand: '''
+                                        trivy image --scanners vuln --timeout 10m --format json achrefdoce/chat:latest > trivy_output.json
+                                    ''',
+                                    remoteDirectory: '.', // Optionally define where to execute the command
+                                    cleanRemote: false
                                 ),
                                 sshTransfer(
                                     remoteDirectory: '.',  // Télécharge le fichier depuis le répertoire distant
-                                    sourceFiles: 'trivy_output.txt',
+                                    sourceFiles: 'trivy_output.json',
                                     removePrefix: '',
                                     cleanRemote: false
                                 )
@@ -120,15 +122,15 @@ pipeline {
             steps {
                 script {
                     // Lire la sortie de Trivy depuis le fichier téléchargé
-                    def trivyOutput = readFile('trivy_output.txt').trim()
+                    def trivyOutput = readFile('trivy_output.json').trim()
 
                     // Vérifier si des vulnérabilités ont été trouvées
-                    if (trivyOutput.contains("Total: 0")) {
+                    if (trivyOutput.contains('"total": 0')) {
                         echo "No vulnerabilities found in the Docker image."
                     } else {
                         echo "Vulnerabilities found in the Docker image."
                         // Échouer le build si nécessaire
-                        // error "Vulnerabilities found in the Docker image."
+                        error "Vulnerabilities found in the Docker image."
                     }
                 }
             }
@@ -141,7 +143,7 @@ pipeline {
                         def dockerHubImageName = "achrefdoce/chat:latest"
                         withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
                             sh "docker login -u achrefdoce -p ${dockerhub}"
-                            sh "docker tag achat:1-0 ${dockerHubImageName}"
+                            sh "docker tag achat:latest ${dockerHubImageName}"
                             sh "docker push ${dockerHubImageName}"
                         }
                     }

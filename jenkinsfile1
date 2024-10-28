@@ -7,8 +7,7 @@ pipeline {
         stage('Checkout Git') {
             steps {
                 echo 'Pulling...'
-                git branch: 'facture-achref',
-                    url: 'https://github.com/JihedMelki7/Groupe3_Achat.git'
+                git branch: 'facture-achref', url: 'https://github.com/JihedMelki7/Groupe3_Achat.git'
             }
         }
 
@@ -82,7 +81,7 @@ pipeline {
             }
         }
 
-        stage('BUILD IMAGE') {
+        stage('Build Image') {
             steps {
                 container('docker') {
                     sh 'docker build -t achat:1-0 .'
@@ -90,36 +89,59 @@ pipeline {
             }
         }
 
-        stage('Scan Docker Image') {
+        stage('Scan Docker Image on Host') {
+            steps {
+                sshPublisher(
+                    publishers: [
+                        sshPublisherDesc(
+                            configName: 'Master',
+                            transfers: [
+                                sshTransfer(
+                                    execCommand: 'trivy image achat:1-0 > trivy_output.txt',
+                                    execTimeout: 60000
+                                ),
+                                sshTransfer(
+                                    remoteDirectory: '.',  // Télécharge le fichier depuis le répertoire distant
+                                    sourceFiles: 'trivy_output.txt',
+                                    removePrefix: '',
+                                    cleanRemote: false
+                                )
+                            ],
+                            usePromotionTimestamp: false,
+                            verbose: true
+                        )
+                    ]
+                )
+            }
+        }
+
+        stage('Analyze Trivy Output') {
             steps {
                 script {
-                    // Run Trivy to scan the Docker image
-                    def trivyOutput = sh(script: "trivy image achat:1-0", returnStdout: true).trim()
+                    // Lire la sortie de Trivy depuis le fichier téléchargé
+                    def trivyOutput = readFile('trivy_output.txt').trim()
 
-                    // Display Trivy scan results
-                    println trivyOutput
-
-                    // Check if vulnerabilities were found
+                    // Vérifier si des vulnérabilités ont été trouvées
                     if (trivyOutput.contains("Total: 0")) {
                         echo "No vulnerabilities found in the Docker image."
                     } else {
                         echo "Vulnerabilities found in the Docker image."
-                        // Optionally fail the build if vulnerabilities are found
+                        // Échouer le build si nécessaire
                         // error "Vulnerabilities found in the Docker image."
                     }
                 }
             }
         }
 
-        stage('Push vers Docker Hub') {
+        stage('Push to Docker Hub') {
             steps {
                 container('docker') {
                     script {
                         def dockerHubImageName = "achrefdoce/chat:latest"
                         withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub')]) {
-                            sh 'docker login -u achrefdoce -p ${dockerhub}'
-                            sh "docker tag achat:1-0 $dockerHubImageName"
-                            sh "docker push $dockerHubImageName"
+                            sh "docker login -u achrefdoce -p ${dockerhub}"
+                            sh "docker tag achat:1-0 ${dockerHubImageName}"
+                            sh "docker push ${dockerHubImageName}"
                         }
                     }
                 }

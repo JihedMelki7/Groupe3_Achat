@@ -89,25 +89,6 @@ pipeline {
             }
         }
 
-        stage('Download Trivy DB') {
-            steps {
-                sshPublisher(
-                    publishers: [
-                        sshPublisherDesc(
-                            configName: 'Master',
-                            transfers: [
-                                sshTransfer(
-                                    execCommand: 'trivy --download-db-only',
-                                    execTimeout: 60000
-                                )
-                            ],
-                            usePromotionTimestamp: false,
-                            verbose: true
-                        )
-                    ]
-                )
-            }
-        }
 
         stage('Scan Docker Image on Host') {
             steps {
@@ -117,8 +98,7 @@ pipeline {
                             configName: 'Master',
                             transfers: [
                                 sshTransfer(
-                                    execCommand: 'trivy image achat:1-0 > trivy_output.txt',
-                                    execTimeout: 60000
+                                    execCommand: 'trivy image --scanners vuln achrefdoce/chat:latest > trivy_output.txt'
                                 ),
                                 sshTransfer(
                                     remoteDirectory: '.',  // Télécharge le fichier depuis le répertoire distant

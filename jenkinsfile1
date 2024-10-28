@@ -98,7 +98,8 @@ pipeline {
                             configName: 'Master',
                             transfers: [
                                 sshTransfer(
-                                    execCommand: 'trivy image --scanners vuln --timeout 10m achrefdoce/chat:latest > trivy_output.txt'
+                                    execCommand: trivy image --scanners vuln --timeout 10m --format json achrefdoce/chat:latest > trivy_output.json
+'
                                 ),
                                 sshTransfer(
                                     remoteDirectory: '.',  // Télécharge le fichier depuis le répertoire distant

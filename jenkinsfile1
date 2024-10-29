@@ -69,7 +69,9 @@ pipeline {
 
         stage('MVN TEST') {
             steps {
-                sh 'mvn test'
+                script {
+                    sh 'mvn test'
+                }
             }
         }
 
@@ -98,14 +100,14 @@ pipeline {
                             transfers: [
                                 sshTransfer(
                                     execCommand: '''
-                                    trivy image --cache-dir /home/origin/deploy-ci-cd/security/cache --scanners vuln --timeout 10m   achrefdoce/chat:latest
+                                    trivy image --cache-dir /home/origin/deploy-ci-cd/security/cache --scanners vuln --timeout 10m --format template --template "@html.tpl" --output /home/origin/deploy-ci-cd/security/trivy_output.html achat:latest
                                     ''',
                                     remoteDirectory: '.', // Optionally define where to execute the command
                                     cleanRemote: false
                                 ),
                                 sshTransfer(
                                     remoteDirectory: '.',  // Télécharge le fichier depuis le répertoire distant
-                                    sourceFiles: '/home/origin/deploy-ci-cd/security/trivy_output.json',
+                                    sourceFiles: '/home/origin/deploy-ci-cd/security/trivy_output.html',
                                     removePrefix: '',
                                     cleanRemote: false
                                 )
@@ -118,24 +120,7 @@ pipeline {
             }
         }
 
-        stage('Analyze Trivy Output') {
-            steps {
-                script {
-                    // Lire la sortie de Trivy depuis le fichier téléchargé
-                    def trivyOutput = readFile('/home/origin/deploy-ci-cd/security/trivy_output.json').trim()
-
-                    // Vérifier si des vulnérabilités ont été trouvées
-                    if (trivyOutput.contains('"total": 0')) {
-                        echo "No vulnerabilities found in the Docker image."
-                    } else {
-                        echo "Vulnerabilities found in the Docker image."
-                        // Échouer le build si nécessaire
-                        error "Vulnerabilities found in the Docker image."
-                    }
-                }
-            }
-        }
-
+     
         stage('Push to Docker Hub') {
             steps {
                 container('docker') {

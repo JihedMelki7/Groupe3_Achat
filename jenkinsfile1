@@ -98,14 +98,14 @@ pipeline {
                             transfers: [
                                 sshTransfer(
                                     execCommand: '''
-                                        trivy image --scanners vuln --timeout 10m --format json achrefdoce/chat:latest > trivy_output.json
+                                        trivy image --scanners vuln --timeout 10m --format json achrefdoce/chat:latest > /home/origin/deploy-ci-cd/security/trivy_output.json
                                     ''',
                                     remoteDirectory: '.', // Optionally define where to execute the command
                                     cleanRemote: false
                                 ),
                                 sshTransfer(
                                     remoteDirectory: '.',  // Télécharge le fichier depuis le répertoire distant
-                                    sourceFiles: 'trivy_output.json',
+                                    sourceFiles: '/home/origin/deploy-ci-cd/security/trivy_output.json',
                                     removePrefix: '',
                                     cleanRemote: false
                                 )
@@ -122,7 +122,7 @@ pipeline {
             steps {
                 script {
                     // Lire la sortie de Trivy depuis le fichier téléchargé
-                    def trivyOutput = readFile('trivy_output.json').trim()
+                    def trivyOutput = readFile('/home/origin/deploy-ci-cd/security/trivy_output.json').trim()
 
                     // Vérifier si des vulnérabilités ont été trouvées
                     if (trivyOutput.contains('"total": 0')) {

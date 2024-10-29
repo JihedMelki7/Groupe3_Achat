@@ -151,7 +151,15 @@ pipeline {
                 }
             }
         }
-
+         
+      stage('Add SCC to Default Service Account') {
+              steps {
+                  script {
+                      sh "oc adm policy add-scc-to-user privileged -z default -n deploy"
+                      echo "Added privileged SCC to default service account in namespace '${namespace}'."
+                  }
+              }
+         }
         stage('Download Backend Deployment File') {
             steps {
                 script {

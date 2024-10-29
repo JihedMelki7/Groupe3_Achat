@@ -98,7 +98,7 @@ pipeline {
                             transfers: [
                                 sshTransfer(
                                     execCommand: '''
-                                    trivy image --cache-dir /home/origin/deploy-ci-cd/security/cache --scanners vuln --timeout 10m --format json  achrefdoce/chat:latest > /home/origin/deploy-ci-cd/security/trivy_output.json
+                                    trivy image --cache-dir /home/origin/deploy-ci-cd/security/cache --scanners vuln --timeout 10m   achrefdoce/chat:latest
                                     ''',
                                     remoteDirectory: '.', // Optionally define where to execute the command
                                     cleanRemote: false

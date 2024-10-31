@@ -3,6 +3,10 @@ pipeline {
         label 'kubeagent'
     }
 
+    environment {
+        NAMESPACE = 'deploy' // Define the namespace variable here
+    }
+
     stages {
         stage('Checkout Git') {
             steps {
@@ -120,7 +124,6 @@ pipeline {
             }
         }
 
-     
         stage('Push to Docker Hub') {
             steps {
                 container('docker') {
@@ -140,26 +143,26 @@ pipeline {
         stage('Create Namespace') {
             steps {
                 script {
-                    def namespace = 'deploy' // Modifiez le nom du namespace si nécessaire
-                    def exists = sh(script: "oc get namespace ${namespace} --no-headers", returnStatus: true) == 0
+                    def exists = sh(script: "oc get namespace ${NAMESPACE} --no-headers", returnStatus: true) == 0
                     if (!exists) {
-                        sh "oc create namespace ${namespace}"
-                        echo "Namespace '${namespace}' created."
+                        sh "oc create namespace ${NAMESPACE}"
+                        echo "Namespace '${NAMESPACE}' created."
                     } else {
-                        echo "Namespace '${namespace}' already exists."
+                        echo "Namespace '${NAMESPACE}' already exists."
                     }
                 }
             }
         }
-         
-      stage('Add SCC to Default Service Account') {
-              steps {
-                  script {
-                      sh "oc adm policy add-scc-to-user privileged -z default -n deploy"
-                      echo "Added privileged SCC to default service account in namespace '${namespace}'."
-                  }
-              }
-         }
+
+        stage('Add SCC to Default Service Account') {
+            steps {
+                script {
+                    sh "oc adm policy add-scc-to-user privileged -z default -n ${NAMESPACE}"
+                    echo "Added privileged SCC to default service account in namespace '${NAMESPACE}'."
+                }
+            }
+        }
+
         stage('Download Backend Deployment File') {
             steps {
                 script {
@@ -173,7 +176,7 @@ pipeline {
             steps {
                 script {
                     // Déployer le backend dans le namespace spécifié
-                    sh 'oc apply -f deployment_back.yml -n deploy'
+                    sh 'oc apply -f deployment_back.yml -n ${NAMESPACE}'
                 }
             }
         }
@@ -191,7 +194,7 @@ pipeline {
             steps {
                 script {
                     // Déployer le frontend dans le namespace spécifié
-                    sh 'oc apply -f deployment_front.yml -n deploy'
+                    sh 'oc apply -f deployment_front.yml -n ${NAMESPACE}'
                 }
             }
         }
